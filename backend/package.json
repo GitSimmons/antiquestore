@@ -4,11 +4,21 @@
   "main": "index.js",
   "author": "Ben Simmons",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon -e js, graphql -x node src/index.js",
+    "debug": "nodemon -e js, graphgl -x node --inspect src/index.js",
+    "test": "jest",
+    "playground": "graphql playground --dotenv variables.env",
+    "deploy": "prisma deploy -e variables.env",
+    "dev": "npm-run-all --parallel debug playground"
+  },
   "dependencies": {
     "dotenv": "^6.2.0",
     "graphql": "^14.1.1",
     "graphql-cli": "^3.0.8",
-    "nodemon": "^1.18.9"
+    "graphql-yoga": "^1.17.1",
+    "nodemon": "^1.18.9",
+    "npm-run-all": "^4.1.5",
+    "prisma-binding": "^2.3.0"
   }
 }
