@@ -1,38 +1,57 @@
 import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
-
+import Router from 'next/router'
+import { Image, Menu } from 'semantic-ui-react'
+import styled from 'styled-components'
 // Menu example from semantic ui docs
 
-export default class MenuExampleBasic extends Component {
-  state = {}
+const topMenuItems = [
+  {key: 'Cart', name: 'Cart'},
+  {key: 'Account', name: 'Account' },
+  {key: 'Sign Out', name: 'Sign Out'}
+]
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+const items = [
+  { key: 'Collections', name: 'Collections', a: '/' },
+  { key: 'Estate Sales', name: 'Estate Sales', a: '/sales' },
+  { key: 'Upcoming Events', name: 'Upcoming Events', a: '/events' },
+  { key: 'Our History', name: 'Our History', a: '/about' },
+  { key: 'Consign With Us', name: 'Consign With Us', a: '/consign' },
+]
+
+const StyledMenu = styled.div`
+  .ui.inverted.menu {
+    background-color: rgb(0,0,0, 0.8);
+  }
+`
+const StyledNav = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  marginRight: 35px;
+`
+
+export default class MenuExampleBasic extends Component {
+  state = {
+    activeItem: ""
+  }
+
+  handleItemClick = (e, { name, a }) => Router.push(a)
 
   render() {
     const { activeItem } = this.state
-
     return (
-      <Menu>
-        <Menu.Item
-          name='editorials'
-          active={activeItem === 'editorials'}
-          onClick={this.handleItemClick}
-        >
-          Editorials
+      <StyledMenu>
+      <Menu inverted borderless>
+        <Menu.Item header>
+          <Image src="/static/logo.png"/>
         </Menu.Item>
-
-        <Menu.Item name='reviews' active={activeItem === 'reviews'} onClick={this.handleItemClick}>
-          Reviews
-        </Menu.Item>
-
-        <Menu.Item
-          name='upcomingEvents'
-          active={activeItem === 'upcomingEvents'}
-          onClick={this.handleItemClick}
-        >
-          Upcoming Events
-        </Menu.Item>
+        <StyledNav>
+        <div> <Menu borderless text secondary floated="right" inverted items={topMenuItems} size="small" /> </div>
+        <div> <Menu borderless defaultActiveIndex="0" floated="right" inverted items={items} size="large" onItemClick={this.handleItemClick} /> </div>
+        </StyledNav>
       </Menu>
+      </StyledMenu>
     )
   }
 }
