@@ -1,0 +1,23 @@
+type User {
+  id: ID! @unique
+  name: String!
+}
+
+type Item {
+  id: ID! @unique
+  title: String!
+  description: String!
+  images: [String]
+  largeImages: [String]
+  price: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+}
