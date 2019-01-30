@@ -6,7 +6,9 @@ import Header from './Header'
 
 const theme = {
   blue: '#34b8e4',
-  maxWidth: '1000px'
+  maxWidth: '1000px',
+  white: '#eeeeee',
+  grey: '#eeeeee'
 }
 
 const StyledPage = styled.div`
@@ -15,7 +17,6 @@ const StyledPage = styled.div`
 const Inner = styled.div`
   margin: auto;
   max-width: ${({ theme }) => theme.maxWidth};
-  background: ${({ theme }) => theme.blue};
 `
 
 class Page extends Component {
