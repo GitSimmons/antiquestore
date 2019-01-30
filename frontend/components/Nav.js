@@ -21,14 +21,15 @@ const items = [
 const StyledMenu = styled.div`
   .ui.inverted.menu {
     background-color: rgb(0,0,0, 0.8);
-  }
+  };
+  padding-bottom: 2rem; 
 `
 const StyledNav = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  marginRight: 35px;
+  margin-right: 35px;
 `
 
 export default class MenuExampleBasic extends Component {
