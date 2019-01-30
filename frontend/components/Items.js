@@ -43,7 +43,7 @@ const Items = () => (
                         {item.description && <Card.Description>{item.description}</Card.Description>}
                       </Card.Content>
                       <Card.Content extra>
-                        <Button basic onClick={() => deleteItem({ variables: { id: item.id } })}> Delete </Button>
+                        <Button negative circular icon='trash' floated='right' onClick={() => deleteItem({ variables: { id: item.id } })} />
                       </Card.Content>
                     </Card>}
                 </Mutation>
