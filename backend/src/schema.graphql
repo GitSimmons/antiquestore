@@ -1,7 +1,43 @@
+# import * from 'generated/prisma.graphql'
+
+type Item {
+  id: String
+  title: String
+  description: String
+  price: Int
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+  images: [String]
+  largeImages: [String]
+}
+
 type Mutation {
-  hi: String
+  createItem(
+    title: String!
+    description: String!
+    price: Int
+    cost: Int
+    consigner: String
+    consignmentRate: Int
+    consignmentStart: DateTime
+    consignmentEnd: DateTime
+    sold: Boolean
+    soldTo: String
+    soldFor: Int
+    images: [String]
+    largeImages: [String]
+  ): Item!
+  deleteItem(
+    id: ID!
+  ): Item!
 }
 
 type Query {
-  hi: String
+  items: [Item]!
 }
