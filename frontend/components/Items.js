@@ -31,7 +31,7 @@ const Items = () => (
           <Card.Group centered stackable>
             {data.items.map(
               (item) =>
-                <Mutation mutation={DELETE_ITEM}>
+                <Mutation mutation={DELETE_ITEM} key={item.id}>
                   {deleteItem =>
                     <Card key={item.id}>
                       {item.image
