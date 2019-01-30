@@ -15,6 +15,7 @@ type Item {
   soldFor: Int
   images: [String]
   largeImages: [String]
+  image: String
 }
 
 type Mutation {
@@ -32,6 +33,7 @@ type Mutation {
     soldFor: Int
     images: [String]
     largeImages: [String]
+    image: String
   ): Item!
   deleteItem(
     id: ID!

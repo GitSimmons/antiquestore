@@ -7,8 +7,9 @@ type Item {
   id: ID! @unique
   title: String!
   description: String!
-  images: [String]
-  largeImages: [String]
+  image: String
+  images: [String!]
+  largeImages: [String!]
   price: Int
   createdAt: DateTime!
   updatedAt: DateTime!
