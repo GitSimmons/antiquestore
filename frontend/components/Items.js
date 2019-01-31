@@ -1,6 +1,7 @@
 import { gql } from 'apollo-boost'
 import { Query, Mutation } from 'react-apollo'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
+import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
 
 const GET_ALL_ITEMS = gql`
@@ -48,6 +49,7 @@ const Items = () => (
                       </Card.Content>
                       <Card.Content extra>
                         <Button negative circular icon='trash' floated='right' onClick={() => deleteItem({ variables: { id: item.id } })} />
+                        <Button primary circular icon='pencil' floated='right' onClick={() => Router.push(`/item?id=${item.id}`)} />
                       </Card.Content>
                     </Card>}
                 </Mutation>
