@@ -35,6 +35,7 @@ type Mutation {
     largeImages: [String]
     image: String
   ): Item!
+  updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   deleteItem(
     id: ID!
   ): Item!
