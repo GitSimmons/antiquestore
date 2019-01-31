@@ -5,6 +5,7 @@ import styled from 'styled-components'
 // Menu example from semantic ui docs
 
 const topMenuItems = [
+  {key: 'Sell', name: 'Sell', a:'/sell'},
   {key: 'Cart', name: 'Cart'},
   {key: 'Account', name: 'Account' },
   {key: 'Sign Out', name: 'Sign Out'}
@@ -37,7 +38,7 @@ export default class MenuExampleBasic extends Component {
     activeItem: ""
   }
 
-  handleItemClick = (e, { name, a }) => Router.push(a)
+  handleItemClick = (e, { name, a }) => a && Router.push(a)
 
   render() {
     const { activeItem } = this.state
@@ -48,7 +49,7 @@ export default class MenuExampleBasic extends Component {
           <Image src="/static/logo.png"/>
         </Menu.Item>
         <StyledNav>
-        <div> <Menu borderless text secondary floated="right" inverted items={topMenuItems} size="small" /> </div>
+        <div> <Menu borderless text secondary floated="right" inverted items={topMenuItems} size="small" onItemClick={this.handleItemClick} /> </div>
         <div> <Menu borderless defaultActiveIndex="0" floated="right" inverted items={items} size="large" onItemClick={this.handleItemClick} /> </div>
         </StyledNav>
       </Menu>
