@@ -19,23 +19,18 @@ const Inner = styled.div`
   max-width: ${({ theme }) => theme.maxWidth};
 `
 
-class Page extends Component {
-  render () {
-    return (
-      <React.Fragment>
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>
-          <StyledPage>
-            <Meta />
-            <Header />
-            <Inner>
-              {this.props.children}
-            </Inner>
-          </StyledPage>
-        </ThemeProvider>
-      </React.Fragment>
-    )
-  }
-}
+const Page = props =>
+  <>
+    <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <StyledPage>
+        <Meta />
+        <Header />
+        <Inner>
+          {props.children}
+        </Inner>
+      </StyledPage>
+    </ThemeProvider>
+  </>
 
 export default Page
