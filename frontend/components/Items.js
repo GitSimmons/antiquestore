@@ -49,7 +49,7 @@ const Items = () => (
                       </Card.Content>
                       <Card.Content extra>
                         <Button negative circular icon='trash' floated='right' onClick={() => deleteItem({ variables: { id: item.id } })} />
-                        <Button primary circular icon='pencil' floated='right' onClick={() => Router.push(`/item?id=${item.id}`)} />
+                        <Button primary circular icon='pencil' floated='right' onClick={() => Router.push(`/edit?id=${item.id}`)} />
                       </Card.Content>
                     </Card>}
                 </Mutation>
