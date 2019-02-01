@@ -12,11 +12,10 @@ const Mutation = {
     return item
   },
   async updateItem (parent, args, ctx, info) {
-    const { id } = args.where
-    const { data } = args
+    const { where, data } = args
     console.log(data)
     const item = await ctx.db.mutation.updateItem({
-      where: { id },
+      where,
       data
     })
     return item
