@@ -3,6 +3,7 @@ import { Query, Mutation } from 'react-apollo'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
+import Pagination from './Pagination'
 
 const GET_ALL_ITEMS = gql`
   query GetAllItems {
@@ -24,11 +25,13 @@ const DELETE_ITEM = gql`
   }
 `
 const Items = () => (
-  <Query query={GET_ALL_ITEMS}>
-    {({ loading, error, data }) => {
-      if (loading) return <div> Loading... </div>
-      if (error) return <div> Error... </div>
-      return (
+  <>
+    <Pagination />
+    <Query query={GET_ALL_ITEMS}>
+      {({ loading, error, data }) => {
+        if (loading) return <div> Loading... </div>
+        if (error) return <div> Error... </div>
+        return (
         <>
           <Card.Group centered stackable>
             {data.items.map(
@@ -56,9 +59,11 @@ const Items = () => (
             )}
           </Card.Group>
         </>
-      )
-    }}
-  </Query>
+        )
+      }}
+    </Query>
+    <Pagination />
+  </>
 )
 
 export default Items
