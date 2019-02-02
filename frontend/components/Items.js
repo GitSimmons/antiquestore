@@ -25,7 +25,7 @@ const DELETE_ITEM = gql`
   }
 `
 const Items = (props) => (
-  <div>
+  <>
     <Pagination page={props.page} />
     <Query query={GET_ALL_ITEMS}>
       {({ loading, error, data }) => {
@@ -63,7 +63,7 @@ const Items = (props) => (
       }}
     </Query>
     <Pagination page={props.page} />
-  </div>
+  </>
 )
 
 export default Items

@@ -23,7 +23,6 @@ const StyledMenu = styled.div`
   .ui.inverted.menu {
     background-color: rgb(0,0,0, 0.8);
   };
-  padding-bottom: 2rem; 
 `
 const StyledNav = styled.div`
   display: flex;
