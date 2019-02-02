@@ -44,7 +44,7 @@ const Items = () => (
                         : <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' />}
                       <Card.Content>
                         <Card.Header>{item.title}</Card.Header>
-                        {item.price && <Card.Meta> <span>{ConvertToCurrency(item.price)}</span></Card.Meta>}
+                        {item.price > 0 && <Card.Meta> <span>{ConvertToCurrency(item.price)}</span></Card.Meta>}
                         {item.description && <Card.Description>{item.description}</Card.Description>}
                       </Card.Content>
                       <Card.Content extra>
