@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost'
 import { Query, Mutation } from 'react-apollo'
-import { Card, Icon, Image, Button } from 'semantic-ui-react'
+import { Card, Image, Button } from 'semantic-ui-react'
 import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
 import Pagination from './Pagination'

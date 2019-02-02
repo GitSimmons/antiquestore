@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 import { Query, Mutation } from 'react-apollo'
 import { useState } from 'react'
-import { Button, Form, Label, Input, Icon, Image } from 'semantic-ui-react'
+import { Form, Label, Input } from 'semantic-ui-react'
 import Router from 'next/router'
 
 const SINGLE_ITEM_QUERY = gql`
@@ -39,23 +39,23 @@ mutation UpdateItem(
 `
 
 const UpdateItem = (props) => {
-  const [loading, setLoading] = useState(false)
-  const [image, setImage] = useState()
+  const [updateLoading, setLoading] = useState(false)
+  // const [image, setImage] = useState()
   const [updates, setUpdates] = useState()
-  const uploadFile = async (file) => {
-    const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
-    const data = new FormData()
-    data.append('file', file)
-    data.append('upload_preset', 'sickfits')
-    const res = await fetch(url,
-      {
-        method: 'POST',
-        body: data
-      })
-    const { secure_url } = await res.json()
-    console.log(secure_url)
-    setImage(secure_url)
-  }
+  // const uploadFile = async (file) => {
+  //   const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
+  //   const data = new FormData()
+  //   data.append('file', file)
+  //   data.append('upload_preset', 'sickfits')
+  //   const res = await fetch(url,
+  //     {
+  //       method: 'POST',
+  //       body: data
+  //     })
+  //   const { secure_url } = await res.json()
+  //   console.log(secure_url)
+  //   setImage(secure_url)
+  // }
 
   const handleSubmit = async (updateItem, item) => {
     await updateItem({ variables: {
@@ -73,7 +73,7 @@ const UpdateItem = (props) => {
         return (
           <Mutation mutation={UPDATE_ITEM_MUTATION} refetchQueries={['GetAllItems', 'SingleItem']}>
             { updateItem =>
-              <Form onSubmit={() => handleSubmit(updateItem, data.item)} loading={loading}>
+              <Form onSubmit={() => handleSubmit(updateItem, data.item)} loading={updateLoading}>
                 <Form.Input required label='Title' placeholder='Title' defaultValue={data.item.title} onChange={({ target }) => setUpdates(prevState => ({ ...prevState, title: target.value }))} />
                 <Form.TextArea required label='Description' placeholder='A brief description of the object' defaultValue={data.item.description} onChange={({ target }) => setUpdates(prev => ({ ...prev, description: target.value }))} type='text' />
                 <Form.Field>

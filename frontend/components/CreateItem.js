@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 import { useState } from 'react'
-import { Button, Form, Label, Input, Icon, Image } from 'semantic-ui-react'
+import { Form, Label, Input, Image } from 'semantic-ui-react'
 import Router from 'next/router'
 
 const CREATE_ITEM_MUTATION = gql`
@@ -43,7 +43,6 @@ const CreateItem = () => {
         body: data
       })
     const { secure_url } = await res.json()
-    console.log(secure_url)
     setImage(secure_url)
   }
 
