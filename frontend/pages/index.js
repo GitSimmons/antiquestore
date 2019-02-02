@@ -1,4 +1,4 @@
 import Items from '../components/Items'
-export default () => (
-  <Items />
+export default props => (
+  <Items page={props.query.page} />
 )
