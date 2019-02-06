@@ -47,7 +47,6 @@ const CreateItem = () => {
   }
 
   const handleSubmit = async (createItem) => {
-    console.log({ title, price, description, image })
     setLoading(true)
     await createItem({ variables: {
       title, price, description, image
@@ -55,7 +54,7 @@ const CreateItem = () => {
     Router.push('/')
   }
   return (
-    <Mutation mutation={CREATE_ITEM_MUTATION}>
+    <Mutation mutation={CREATE_ITEM_MUTATION} refetchQueries={['ALL_ITEMS_QUERY', 'PAGINATION_QUERY']}>
       { createItem =>
         <Form onSubmit={() => handleSubmit(createItem)} loading={loading}>
           <Form.Input required label='Title' placeholder='Title' onChange={(e) => setTitle(e.target.value)} />

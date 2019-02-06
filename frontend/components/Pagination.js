@@ -8,7 +8,7 @@ import Head from 'next/head'
 import styled from 'styled-components'
 
 const PAGINATION_QUERY = gql`
-query PaginationQuery {
+query PAGINATION_QUERY {
   itemsConnection {
     aggregate {
       count
@@ -22,20 +22,22 @@ justify-content: center;
 padding: 1rem;
 `
 
-const PaginationComponent = (props) => {
-  const { router } = props
+const PaginationComponent = ({ page, refetch, router }) => {
   router.prefetch({
     pathname: '/',
-    query: { page: props.page - 1 }
+    query: { page: page + 1 }
   })
   router.prefetch({
     pathname: '/',
-    query: { page: props.page + 1 }
+    query: { page: page - 1 }
   })
-  const pageChangeHandler = (e, data) => Router.push({
-    pathname: '/',
-    query: { page: data.activePage }
-  })
+  const pageChangeHandler = async (e, data) => {
+    await Router.push({
+      pathname: '/',
+      query: { page: data.activePage }
+    })
+    refetch()
+  }
   return (
     <StyledPagination>
       <Query query={PAGINATION_QUERY}>
@@ -46,9 +48,9 @@ const PaginationComponent = (props) => {
           return (
           <>
             <Head>
-              <title>Aunt Sadie's Antiques - Page {props.page} of {pages}</title>
+              <title>Aunt Sadie's Antiques - Page {page} of {pages}</title>
             </Head>
-            <Pagination defaultActivePage={props.page} totalPages={pages} onPageChange={pageChangeHandler} />
+            <Pagination activePage={page} totalPages={pages} onPageChange={pageChangeHandler} />
           </>
           )
         }}

@@ -5,7 +5,7 @@ import { Form, Label, Input } from 'semantic-ui-react'
 import Router from 'next/router'
 
 const SINGLE_ITEM_QUERY = gql`
-  query SingleItem($id: ID!) {
+  query SINGLE_ITEM_QUERY($id: ID!) {
     item(where:{id: $id}) {
       title
       description
@@ -16,7 +16,7 @@ const SINGLE_ITEM_QUERY = gql`
 `
 
 const UPDATE_ITEM_MUTATION = gql`
-mutation UpdateItem(
+mutation UPDATE_ITEM_MUTATION(
   $id: ID!
   $title: String
   $description: String
@@ -71,7 +71,7 @@ const UpdateItem = (props) => {
         if (loading) { return <div>Loading...</div> }
         if (error) { return <div>Error!:{error}</div> }
         return (
-          <Mutation mutation={UPDATE_ITEM_MUTATION} refetchQueries={['GetAllItems', 'SingleItem']}>
+          <Mutation mutation={UPDATE_ITEM_MUTATION} refetchQueries={['ALL_ITEMS_QUERY', 'SINGLE_ITEM_QUERY']}>
             { updateItem =>
               <Form onSubmit={() => handleSubmit(updateItem, data.item)} loading={updateLoading}>
                 <Form.Input required label='Title' placeholder='Title' defaultValue={data.item.title} onChange={({ target }) => setUpdates(prevState => ({ ...prevState, title: target.value }))} />
