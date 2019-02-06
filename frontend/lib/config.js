@@ -1,3 +1,3 @@
-const perPage = 4
+const perPage = 6
 
 export { perPage }
