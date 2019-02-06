@@ -1,5 +1,25 @@
 # import * from 'generated/prisma.graphql'
 
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
+type User {
+  id: String
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission]
+}
+
+
 type Item {
   id: String
   title: String
@@ -39,10 +59,22 @@ type Mutation {
   deleteItem(
     id: ID!
   ): Item!
+  createUser (
+    name: String
+    email: String
+    password: String
+  ) : User!
+  signIn (
+    email: String
+    password: String
+  ) : User
 }
 
 type Query {
-  items: [Item]!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
+  users: [User]!
+  user(where: UserWhereUniqueInput!): User
+
 }
