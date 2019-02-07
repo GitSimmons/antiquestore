@@ -34,15 +34,6 @@ const DELETE_ITEM_MUTATION = gql`
 
 const Items = (props) => {
   const page = parseFloat(props.page)
-
-  const updateCache = (store, { data: { deleteItem } }) => {
-    console.log(store.data)
-    console.log(deleteItem.id)
-    const regexPattern = '/^Item/'
-    Object.keys(store.data.data).forEach(key =>
-      key.match(regexPattern) && store.data.delete(key))
-    // store.data.delete(`Item:${deleteItem}`)
-  }
   return (
   <>
 
