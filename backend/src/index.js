@@ -1,7 +1,24 @@
 require('dotenv').config({ path: 'variables.env' })
 const createServer = require('./createServer')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 
 const server = createServer()
+
+server.use(cookieParser())
+
+// pull the jwt token from cookies and verify it
+
+server.use(async (req, res, next) => {
+  const { token } = req.cookies
+  if (token) {
+    const { id } = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(id)
+    req.userId = id
+  }
+  next()
+})
+
 server.start({
   cors: {
     credentials: true,
