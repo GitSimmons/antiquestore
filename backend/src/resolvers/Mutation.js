@@ -1,6 +1,21 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const setCookie = (id, ctx) => {
+  const token = jwt.sign({ id }, process.env.JWT_SECRET)
+  ctx.response.cookie('token', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+  })
+}
+
+const getToken = ({ id, email }) => {
+  const token = jwt.sign(
+    { id, email },
+    process.env.JWT_SECRET,
+    { expiresIn: '1y' })
+  return token
+}
 const Mutation = {
   async createItem (parent, args, ctx, info) {
     const item = await ctx.db.mutation.createItem({
@@ -30,6 +45,7 @@ const Mutation = {
     const user = await ctx.db.mutation.createUser({
       data: { ...args, password: hash, permissions: { set: ['USER'] } }
     })
+    setCookie(user.id, ctx)
     return user
   },
   async signIn (parent, { email, password }, ctx, info) {
@@ -43,7 +59,12 @@ const Mutation = {
     if (!valid) {
       throw new Error('Invalid Password!')
     }
+    setCookie(user.id, ctx)
     return user
+  },
+  async signOut (parent, args, ctx, info) {
+    ctx.response.clearCookie('token')
+    return { message: 'Successfully logged out.' }
   }
 }
 
