@@ -1,4 +1,7 @@
 import Items from '../components/Items'
+import Masthead from '../components/Masthead'
 export default props => (
-  <Items page={props.query.page || 1} />
+  <><Masthead />
+    <Items page={props.query.page || 1} />
+  </>
 )
