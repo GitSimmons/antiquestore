@@ -26,15 +26,14 @@ const SignUp = () => {
   }
   return (
     <Mutation mutation={SIGNUP_MUTATION}>
-      {(signUpMutation) => (<div>
-        {`${name}, ${password}, ${email}`}
+      {(signUpMutation) => (
         <Form>
           <Form.Input label='name' onChange={(e) => setName(e.target.value)} />
           <Form.Input label='email' onChange={(e) => setEmail(e.target.value)} />
           <Form.Input label='password' onChange={(e) => setPassword(e.target.value)} />
           <Form.Button primary onClick={() => handleSubmit(signUpMutation)}>Sign up</Form.Button>
         </Form>
-      </div>)}
+      )}
 
     </Mutation>
   )
