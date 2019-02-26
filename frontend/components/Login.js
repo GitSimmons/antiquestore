@@ -2,6 +2,7 @@ import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 import { useState } from 'react'
 import { Form, Grid, Button, Segment, Divider, Label, Input, Image, Message } from 'semantic-ui-react'
+import Router from 'next/router'
 
 const LOGIN_MUTATION = gql`
 mutation logIn(
@@ -13,6 +14,7 @@ mutation logIn(
     password: $password
   ) {
     id
+    name
   }
 }
 `
@@ -21,9 +23,10 @@ const Login = () => {
   const [email, setEmail] = useState('benben')
   const [password, setPassword] = useState('benbenben')
   const handleLogin = async (loginMutation) => {
-    await loginMutation({ variables: {
+    const userData = await loginMutation({ variables: {
       email, password
     } }).catch(err => null)
+    userData && console.log(`Welcome back ${userData.data.signIn.name}`)
   }
   return (
     <Mutation mutation={LOGIN_MUTATION}>
@@ -46,7 +49,7 @@ const Login = () => {
               </Form>
             </Grid.Column>
             <Grid.Column verticalAlign='middle'>
-              <Button content='Sign up' icon='signup' size='big' />
+              <Button content='Sign up' icon='signup' size='big' onClick={() => Router.push('/signup')} />
             </Grid.Column>
           </Grid>
           <Divider vertical>Or</Divider>
