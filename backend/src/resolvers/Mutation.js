@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { randomBytes } = require('crypto')
 
 const setCookie = (id, ctx) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET)
@@ -65,6 +66,52 @@ const Mutation = {
   async signOut (parent, args, ctx, info) {
     ctx.response.clearCookie('token')
     return { message: 'Successfully logged out.' }
+  },
+  async requestReset (parent, { email }, ctx, info) {
+    const user = await ctx.db.query.user({
+      where: { email }
+    })
+    if (!user) {
+      throw new Error(`No user found for email: ${email}`)
+    }
+    const resetToken = await randomBytes(16).toString('hex')
+    const resetTokenExpiry = Date.now() + 36000000 // 60 minutes
+    const updatedUser = await ctx.db.mutation.updateUser({ where: { email },
+      data: {
+        resetToken,
+        resetTokenExpiry
+      } })
+    return { message: `request password reset for ${email} confirmed, it will expire in 1 hour ` }
+  },
+  async resetPassword (parent, { resetToken, password, confirmPassword }, ctx, info) {
+    const [user] = await ctx.db.query.users(
+      {
+        where: {
+          AND: [{ resetToken },
+            { resetTokenExpiry_gte: Date.now() }
+          ]
+        }
+      }
+    )
+    if (!user) {
+      throw new Error('Either your reset token is invalid, or it has expired')
+    }
+    if (password !== confirmPassword) {
+      throw new Error('Passwords don\'t match')
+    }
+    const saltRounds = 10
+    const hash = await bcrypt.hash(password, saltRounds)
+    const updatedUser = await ctx.db.mutation.updateUser(
+      {
+        where: { email: user.email },
+        data: {
+          password: hash,
+          resetToken: null,
+          resetTokenExpiry: null
+        }
+      })
+    setCookie(user.id, ctx)
+    return updatedUser
   }
 }
 

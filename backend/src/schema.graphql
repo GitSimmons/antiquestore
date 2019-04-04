@@ -71,6 +71,8 @@ type Mutation {
     password: String
   ) : User!
   signOut: SuccessMessage!
+  requestReset (email: String!) : SuccessMessage!
+  resetPassword (resetToken: String!, password: String!, confirmPassword: String!) : User!
 }
 
 type Query {
@@ -79,5 +81,5 @@ type Query {
   itemsConnection(where: ItemWhereInput): ItemConnection!
   users: [User]!
   user(where: UserWhereUniqueInput!): User
-
+  currentUser: User
 }
