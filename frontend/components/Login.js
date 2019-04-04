@@ -36,14 +36,13 @@ const Login = () => {
         <Segment placeholder>
           <Grid columns={2} relaxed='very'>
             <Grid.Column>
-              <Form error={!!error} loading={loading}>
+              <Form error={!!error} >
                 <Form.Input required label='E-mail' icon='user' iconPosition='left'placeholder='E-mail' onChange={(e) => setEmail(e.target.value)} />
                 <Form.Input required label='Password' icon='lock' iconPosition='left'type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
-                <Form.Button primary onClick={() => handleLogin(loginMutation)}> Log me in! </Form.Button>
+                <Form.Button disabled={loading} primary onClick={() => handleLogin(loginMutation)}> Log me in! </Form.Button>
                 <Message
                   error
-                  header='Oh no!'
-                  content={error ? error.message : null}
+                  content={error ? `Please enter a valid email and password.` : null}
                 />
                 {error && <Form.Button> Forgot your password ?</Form.Button>}
               </Form>

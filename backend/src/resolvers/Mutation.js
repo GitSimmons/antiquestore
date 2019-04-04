@@ -40,6 +40,9 @@ const Mutation = {
     return item
   },
   async createUser (parent, args, ctx, info) {
+    if (!args.password || !args.email) {
+      throw new Error('Please enter a valid email and password.')
+    }
     const saltRounds = 10
     args.email = args.email.toLowerCase()
     const hash = await bcrypt.hash(args.password, saltRounds)
@@ -50,11 +53,14 @@ const Mutation = {
     return user
   },
   async signIn (parent, { email, password }, ctx, info) {
+    if (!email || !password) {
+      throw new Error(`Please enter a valid email and password.`)
+    }
     const user = await ctx.db.query.user({
       where: { email }
     })
     if (!user) {
-      throw new Error(`No user found for email: ${email}`)
+      throw new Error(`No user found for email: ${email}.`)
     }
     const valid = await bcrypt.compare(password, user.password)
     if (!valid) {

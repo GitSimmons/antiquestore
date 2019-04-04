@@ -1,29 +1,28 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
-import { Image, Menu } from 'semantic-ui-react'
+import { Button, Container, Image, Menu, Responsive, Segment, Sticky, Transition, Visibility } from 'semantic-ui-react'
 import styled from 'styled-components'
-// Menu example from semantic ui docs
+import SignOut from './SignOut'
+import User from './User'
 
-const topMenuItems = [
-  { key: 'Sell', name: 'Sell', a: '/sell' },
-  { key: 'Cart', name: 'Cart' },
-  { key: 'Account', name: 'Account' },
-  { key: 'Sign Out', name: 'Sign Out' }
-]
+// Menu example largely based on semantic ui docs
 
-const items = [
-  { key: 'Collections', name: 'Collections', a: '/' },
-  { key: 'Estate Sales', name: 'Estate Sales', a: '/sales' },
-  { key: 'Upcoming Events', name: 'Upcoming Events', a: '/events' },
-  { key: 'Our History', name: 'Our History', a: '/about' },
-  { key: 'Consign With Us', name: 'Consign With Us', a: '/consign' }
-]
+// Heads up! (note from docs)
+// Use React Static to prerender our docs with server side rendering, this is a quite simple solution.
+// For more advanced usage please check Responsive docs under the "Usage" section.
+const getWidth = () => {
+  const isSSR = typeof window === 'undefined'
 
-const StyledMenu = styled.div`
-  .ui.inverted.menu {
-    background-color: rgb(0,0,0, 0.8);
-  };
-`
+  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
+
+const ResponsiveContainer = ({ children }) => (
+  <>
+    <DesktopContainer>{children}</DesktopContainer>
+    <MobileContainer>{children}</MobileContainer>
+  </>
+)
+
 const StyledNav = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,22 +31,116 @@ const StyledNav = styled.div`
   margin-right: 35px;
 `
 
-const Nav = () => {
-  const [activeItem, setActiveItem] = useState()
-
-  const handleItemClick = (e, { name, a }) => a && Router.push(a)
+const StyledDesktopContainer = styled.div`
+        .ui.inverted.segment {
+        background: url('/static/bg.jpg');
+        background-size: cover !important;
+        background-position: center;
+        }
+        .ui.inverted.menu {
+    background-color: rgb(0,0,0, 0.8);
+  };
+  padding-bottom: 5rem;
+`
+const DesktopContainer = ({ children }) => {
+  const handleItemClick = (e, { a }) => { a && Router.push(a) }
   return (
-    <StyledMenu>
-      <Menu inverted borderless>
-        <Menu.Item header>
-          <Image src='/static/logo.png' />
-        </Menu.Item>
-        <StyledNav>
-          <div> <Menu borderless text secondary floated='right' inverted items={topMenuItems} size='small' onItemClick={handleItemClick} /> </div>
-          <div> <Menu borderless defaultActiveIndex='0' floated='right' inverted items={items} size='large' onItemClick={handleItemClick} /> </div>
-        </StyledNav>
-      </Menu>
-    </StyledMenu>
+    <StyledDesktopContainer>
+      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+        <Container fixed='top' />
+        <Menu inverted borderless fixed='top'>
+          <Menu.Item header>
+            <Image src='/static/logo.png' onClick={() => Router.push('/')} />
+          </Menu.Item>
+          <StyledNav>
+            <Menu
+              borderless
+              text
+              secondary
+              floated='right'
+              inverted
+              size='small'
+            >
+              <Menu.Item a='/sell' onClick={handleItemClick} >Sell</Menu.Item>
+              <Menu.Item a='/Cart' onClick={handleItemClick} >Cart</Menu.Item>
+              <Menu.Item a='/Account' onClick={handleItemClick} >Account</Menu.Item>
+              <User>
+                {data => {
+                  return (!data.currentUser
+                    ? <Menu.Item a='/login' onClick={handleItemClick}> Log In </Menu.Item>
+                    : <SignOut>
+                      {signOut =>
+                        <Menu.Item onClick={signOut}> Log Out </Menu.Item>
+                      }
+                    </SignOut>
+                  )
+                }
+                }
+              </User>
+            </Menu>
+          </StyledNav>
+        </Menu>
+
+      </Responsive>
+    </StyledDesktopContainer>
   )
 }
-export default Nav
+
+const MobileContainer = ({ children }) => {
+  const handleItemClick = (e, { a }) => { a && Router.push(a) }
+  return (
+    <StyledDesktopContainer>
+      <Responsive getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
+        <Container fixed='top' />
+        <Menu inverted borderless fixed='top'>
+          <Menu.Item header>
+            <Image src='/static/logo.png' onClick={() => Router.push('/')} />
+          </Menu.Item>
+          <StyledNav>
+            <Menu
+              borderless
+              text
+              secondary
+              floated='right'
+              inverted
+              size='small'
+            >
+              <Menu.Item a='/sell' onClick={handleItemClick} >Sell</Menu.Item>
+              <Menu.Item a='/Cart' onClick={handleItemClick} >Cart</Menu.Item>
+              <Menu.Item a='/Account' onClick={handleItemClick} >Account</Menu.Item>
+              <User>
+                {data => {
+                  return (!data.currentUser
+                    ? <Menu.Item a='/login' onClick={handleItemClick}> Log In </Menu.Item>
+                    : <SignOut>
+                      {signOut =>
+                        <Menu.Item onClick={signOut}> Log Out </Menu.Item>
+                      }
+                    </SignOut>
+                  )
+                }
+                }
+              </User>
+            </Menu>
+          </StyledNav>
+        </Menu>
+
+      </Responsive>
+    </StyledDesktopContainer>
+  )
+}
+
+// const topMenuItems = [
+//   { key: 'Sell', name: 'Sell', a: '/sell' },
+//   { key: 'Cart', name: 'Cart' },
+//   { key: 'Account', name: 'Account' },
+//   { key: 'Log in', name: 'Log In', a: '/login' }
+// ]
+
+// const items = [
+//   { key: 'Collection', name: 'Collection', a: '/' },
+//   { key: 'Estate Sales', name: 'Estate Sales', a: '/sales' },
+//   { key: 'About Us', name: 'About Us', a: '/about' }
+// ]
+
+export default ResponsiveContainer

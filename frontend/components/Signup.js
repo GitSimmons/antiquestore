@@ -28,9 +28,9 @@ const SignUp = () => {
     <Mutation mutation={SIGNUP_MUTATION}>
       {(signUpMutation) => (
         <Form>
-          <Form.Input label='name' onChange={(e) => setName(e.target.value)} />
-          <Form.Input label='email' onChange={(e) => setEmail(e.target.value)} />
-          <Form.Input label='password' onChange={(e) => setPassword(e.target.value)} />
+          <Form.Input required label='Name' placeholder='The most difficult question on the exam' onChange={(e) => setName(e.target.value)} />
+          <Form.Input required label='E-mail' placeholder='Probably has an @ somewhere in it' onChange={(e) => setEmail(e.target.value)} />
+          <Form.Input required type='password' placeholder='Write this on sticky note for minimum safety' label='Password' onChange={(e) => setPassword(e.target.value)} />
           <Form.Button primary onClick={() => handleSubmit(signUpMutation)}>Sign up</Form.Button>
         </Form>
       )}
