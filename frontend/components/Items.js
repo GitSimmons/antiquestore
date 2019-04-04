@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
 import Pagination from './Pagination'
 import { perPage } from '../lib/config'
+import User from './User'
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY(
@@ -36,7 +37,6 @@ const Items = (props) => {
   const page = parseFloat(props.page)
   return (
   <>
-
     <Query query={ALL_ITEMS_QUERY}
       variables={{ skip: page * perPage - perPage }}>
       {({ loading, error, data, refetch }) => {
@@ -79,7 +79,7 @@ const Items = (props) => {
             )}
           </Card.Group>
           <Pagination page={page} refetch={refetch} />
-          <Button onClick={() => refetch()}> Refetch </Button>
+
         </>
         )
       }}
