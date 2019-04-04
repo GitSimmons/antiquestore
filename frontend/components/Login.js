@@ -21,8 +21,8 @@ mutation logIn(
 `
 
 const Login = () => {
-  const [email, setEmail] = useState('benben')
-  const [password, setPassword] = useState('benbenben')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const handleLogin = async (loginMutation) => {
     const userData = await loginMutation({ variables: {
       email, password
