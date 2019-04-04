@@ -7,13 +7,12 @@ const server = createServer()
 
 server.use(cookieParser())
 
-// pull the jwt token from cookies and verify it
+// pull the jwt token from cookies if it exists and verify it
 
 server.use(async (req, res, next) => {
   const { token } = req.cookies
   if (token) {
     const { id } = jwt.verify(token, process.env.JWT_SECRET)
-    console.log(id)
     req.userId = id
   }
   next()
