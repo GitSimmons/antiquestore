@@ -1,0 +1,39 @@
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission]
+}
+
+type Item {
+  id: ID! @unique
+  title: String!
+  description: String!
+  image: String
+  images: [String!]
+  largeImages: [String!]
+  price: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+  createdBy: User!
+}
