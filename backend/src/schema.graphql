@@ -2,6 +2,7 @@
 type SuccessMessage {
   message: String!
 }
+
 enum Permission {
   ADMIN
   USER
