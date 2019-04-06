@@ -11,14 +11,20 @@
     "deploy": "prisma deploy -e variables.env"
   },
   "dependencies": {
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.3",
-    "dotenv": "^6.2.0",
-    "graphql": "^14.1.1",
-    "graphql-cli": "^3.0.8",
-    "graphql-yoga": "^1.17.1",
+    "dotenv": "^7.0.0",
+    "graphql": "^14.2.1",
+    "graphql-cli": "^3.0.11",
+    "graphql-yoga": "^1.17.4",
     "jsonwebtoken": "^8.4.0",
     "nodemon": "^1.18.9",
-    "prisma-binding": "^2.3.0"
-  }
+    "prisma": "^1.30.0",
+    "prisma-binding": "^2.3.10"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]}
 }
