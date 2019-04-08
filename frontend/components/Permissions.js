@@ -23,17 +23,6 @@ const ALL_USERS_QUERY = gql`
 `
 
 const Permissions = () => {
-  const handleSelect = (e, possiblePermission, user) => {
-    let userNewPermissions = [...user.permissions]
-    const index = user.permissions.indexOf(possiblePermission)
-    if (index === -1) {
-      userNewPermissions.push(possiblePermission)
-    } else {
-      userNewPermissions.splice(index, 1)
-    }
-    return userNewPermissions
-  }
-
   return (
     <Query query={ALL_USERS_QUERY}>
       {({ data, loading, error }) => {
@@ -59,20 +48,7 @@ const Permissions = () => {
             </Table.Header>
             <Table.Body>
               {data.users.map((user) =>
-                <Table.Row key={user.id}>
-                  <Table.Cell>{ user.name }</Table.Cell>
-                  <Table.Cell>{ user.email }</Table.Cell>
-                  <Table.Cell>{ user.id }</Table.Cell>
-                  {
-                    possiblePermissions.map(possiblePermission =>
-                      <Table.Cell onClick={(e) => handleSelect(e, possiblePermission, user)} textAlign='center' selectable key={`${user.id + possiblePermission}`}>
-                        {user.permissions.includes(possiblePermission) &&
-                        <Icon color='green' name='checkmark' size='large' />
-                        }
-                      </Table.Cell>
-                    )
-                  }
-                </Table.Row>
+                <UserRow user={user} key={user.id} />
               )}
             </Table.Body>
 
@@ -83,4 +59,32 @@ const Permissions = () => {
   )
 }
 
+const UserRow = ({ user }) => {
+  const handleSelect = (e, possiblePermission, user) => {
+    let userNewPermissions = [...user.permissions]
+    const index = user.permissions.indexOf(possiblePermission)
+    if (index === -1) {
+      userNewPermissions.push(possiblePermission)
+    } else {
+      userNewPermissions.splice(index, 1)
+    }
+    return userNewPermissions
+  }
+  return (
+    <Table.Row key={user.id}>
+      <Table.Cell>{ user.name }</Table.Cell>
+      <Table.Cell>{ user.email }</Table.Cell>
+      <Table.Cell>{ user.id }</Table.Cell>
+      {
+        possiblePermissions.map(possiblePermission =>
+          <Table.Cell onClick={(e) => handleSelect(e, possiblePermission, user)} textAlign='center' selectable key={`${user.id + possiblePermission}`}>
+            {user.permissions.includes(possiblePermission) &&
+            <Icon color='green' name='checkmark' size='large' />
+            }
+          </Table.Cell>
+        )
+      }
+    </Table.Row>
+  )
+}
 export default Permissions
