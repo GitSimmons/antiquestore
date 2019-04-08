@@ -2,7 +2,7 @@ require('dotenv').config({ path: 'variables.env' })
 const createServer = require('./createServer')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
-
+const db = require('./db')
 const server = createServer()
 
 server.use(cookieParser())
@@ -15,6 +15,18 @@ server.use(async (req, res, next) => {
     const { id } = jwt.verify(token, process.env.JWT_SECRET)
     req.userId = id
   }
+  next()
+})
+
+server.use(async (req, res, next) => {
+  if (!req.userId) {
+    return next()
+  }
+  const user = await db.query.user(
+    { where: { id: req.userId } },
+    '{email, id, name, permissions}'
+  )
+  req.user = user
   next()
 })
 
