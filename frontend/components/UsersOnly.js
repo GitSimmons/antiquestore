@@ -11,10 +11,11 @@ const UsersOnly = ({ children }) => {
             </>
           )
         }
-        return (<>
-          <h1>Hi {currentUser.name}</h1>
-          {children}
-  </>)
+        return (
+          <>
+            {children}
+           </>
+        )
       }}
     </User>
   )
