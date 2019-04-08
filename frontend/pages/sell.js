@@ -1,7 +1,9 @@
 import CreateItem from '../components/CreateItem'
-
+import UsersOnly from '../components/UsersOnly'
 const Sell = () => (
-  <CreateItem />
+  <UsersOnly>
+    <CreateItem />
+  </UsersOnly>
 )
 
 export default Sell
