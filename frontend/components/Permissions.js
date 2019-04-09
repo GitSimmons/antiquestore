@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 import { Query } from 'react-apollo'
 import { Icon, Table } from 'semantic-ui-react'
-
+import { useState } from 'react'
 const possiblePermissions = [
   'ADMIN',
   'USER',
@@ -60,15 +60,15 @@ const Permissions = () => {
 }
 
 const UserRow = ({ user }) => {
+  const [userPermissions, setUserPermissions] = useState([...user.permissions])
   const handleSelect = (e, possiblePermission, user) => {
-    let userNewPermissions = [...user.permissions]
-    const index = user.permissions.indexOf(possiblePermission)
-    if (index === -1) {
-      userNewPermissions.push(possiblePermission)
+    if (!userPermissions.includes(possiblePermission)) {
+      setUserPermissions((oldPermissions) => oldPermissions.concat(possiblePermission))
     } else {
-      userNewPermissions.splice(index, 1)
+      setUserPermissions((oldPermissions) => oldPermissions.filter((permission) => permission != possiblePermission))
     }
-    return userNewPermissions
+    console.log(userPermissions)
+    return userPermissions
   }
   return (
     <Table.Row key={user.id}>
@@ -78,7 +78,7 @@ const UserRow = ({ user }) => {
       {
         possiblePermissions.map(possiblePermission =>
           <Table.Cell onClick={(e) => handleSelect(e, possiblePermission, user)} textAlign='center' selectable key={`${user.id + possiblePermission}`}>
-            {user.permissions.includes(possiblePermission) &&
+            {userPermissions.includes(possiblePermission) &&
             <Icon color='green' name='checkmark' size='large' />
             }
           </Table.Cell>
