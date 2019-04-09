@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { randomBytes } = require('crypto')
+const hasPermissions = require('../utils')
 
 const setCookie = (id, ctx) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET)
@@ -87,6 +88,9 @@ const Mutation = {
         resetToken,
         resetTokenExpiry
       } })
+
+    // TODO: Actually send an email request. Or y'know, fake it with mailtrap + nodemailer
+
     return { message: `request password reset for ${email} confirmed, it will expire in 1 hour ` }
   },
   async resetPassword (parent, { resetToken, password, confirmPassword }, ctx, info) {
@@ -118,6 +122,18 @@ const Mutation = {
       })
     setCookie(user.id, ctx)
     return updatedUser
+  },
+  async modifyPermissions (parent, { id, permissions }, ctx, info) {
+    const currentUser = await ctx.db.query.user({ where: { id: ctx.request.userId } })
+    hasPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE'])
+    const user = await ctx.db.query.user({ where: { id } })
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return ctx.db.mutation.updateUser({
+      where: { id },
+      data: { permissions: { set: [...permissions] } }
+    }, info)
   }
 }
 
