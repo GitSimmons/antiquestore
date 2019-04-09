@@ -124,8 +124,7 @@ const Mutation = {
     return updatedUser
   },
   async modifyPermissions (parent, { id, permissions }, ctx, info) {
-    const currentUser = await ctx.db.query.user({ where: { id: ctx.request.userId } })
-    hasPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE'])
+    hasPermissions(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE'])
     const user = await ctx.db.query.user({ where: { id } })
     if (!user) {
       throw new Error('User not found')
