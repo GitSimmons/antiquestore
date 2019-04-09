@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost'
-import { Query } from 'react-apollo'
-import { Icon, Table } from 'semantic-ui-react'
+import { Query, Mutation } from 'react-apollo'
+import { Icon, Table, Button } from 'semantic-ui-react'
 import { useState } from 'react'
 const possiblePermissions = [
   'ADMIN',
@@ -21,7 +21,14 @@ const ALL_USERS_QUERY = gql`
    }
  }
 `
-
+const UPDATE_PERMISSIONS_MUTATION = gql`
+  mutation UPDATE_PERMISSIONS_MUTATION($id: ID!, $permissions: [Permission]!) {
+  modifyPermissions(id: $id, permissions: $permissions) {
+    name
+    email
+  }
+}
+`
 const Permissions = () => {
   return (
     <Query query={ALL_USERS_QUERY}>
@@ -32,13 +39,13 @@ const Permissions = () => {
         if (error) { return <p>{error.message}</p> }
         console.log(data)
         return (
-          <Table celled structured>
+          <Table celled structured striped unstackable>
             <Table.Header>
               <Table.Row textAlign='center'>
                 <Table.HeaderCell rowSpan='2'>Name</Table.HeaderCell>
                 <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-                <Table.HeaderCell rowSpan='2'>ID</Table.HeaderCell>
                 <Table.HeaderCell colSpan={possiblePermissions.length}> Permissions </Table.HeaderCell>
+                <Table.HeaderCell rowSpan='2'> Update </Table.HeaderCell>
               </Table.Row>
               <Table.Row>
                 {possiblePermissions.map(possiblePermission =>
@@ -67,23 +74,46 @@ const UserRow = ({ user }) => {
     } else {
       setUserPermissions((oldPermissions) => oldPermissions.filter((permission) => permission != possiblePermission))
     }
-    console.log(userPermissions)
     return userPermissions
   }
+
   return (
     <Table.Row key={user.id}>
       <Table.Cell>{ user.name }</Table.Cell>
       <Table.Cell>{ user.email }</Table.Cell>
-      <Table.Cell>{ user.id }</Table.Cell>
       {
         possiblePermissions.map(possiblePermission =>
-          <Table.Cell onClick={(e) => handleSelect(e, possiblePermission, user)} textAlign='center' selectable key={`${user.id + possiblePermission}`}>
+          <Table.Cell
+            onClick={(e) => handleSelect(e, possiblePermission, user)}
+            textAlign='center'
+            selectable
+            key={`${user.id + possiblePermission}`}
+          >
             {userPermissions.includes(possiblePermission) &&
             <Icon color='green' name='checkmark' size='large' />
             }
           </Table.Cell>
         )
       }
+      <Mutation mutation={UPDATE_PERMISSIONS_MUTATION} variables={{ id: user.id, permissions: userPermissions }}>
+        {(updatePermissions, { error, loading }) =>
+          <Table.Cell >
+            {error && <p>{error.message}</p>}
+            <Button
+              disabled={loading}
+              onClick={() => {
+                return updatePermissions()
+              }}
+              floated='right'
+              icon
+              labelPosition='left'
+              primary size='small'
+            >
+              <Icon name='user' /> Updat{loading ? 'ing' : 'e'} Permissions
+            </Button>
+          </Table.Cell>
+        }
+      </Mutation>
     </Table.Row>
   )
 }
