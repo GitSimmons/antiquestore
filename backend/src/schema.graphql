@@ -39,6 +39,7 @@ type Item {
   images: [String]
   largeImages: [String]
   image: String
+  createdBy: User!
 }
 
 type Mutation {
