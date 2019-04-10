@@ -20,14 +20,27 @@ const getToken = ({ id, email }) => {
 }
 const Mutation = {
   async createItem (parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to create an item')
+    }
     const item = await ctx.db.mutation.createItem({
-      data: { ...args }
+      data: {
+        ...args,
+        createdBy: {
+          connect: {
+            id: ctx.request.userId
+          }
+        }
+      }
     })
     return item
   },
-  async deleteItem (parent, args, ctx, info) {
+  async deleteItem (parent, { id }, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to delete an item')
+    }
     const item = await ctx.db.mutation.deleteItem({
-      where: { ...args }
+      where: { id }
     })
     return item
   },
