@@ -10,7 +10,7 @@ server.use(cookieParser())
 // pull the jwt token from cookies if it exists and verify it
 
 server.use(async (req, res, next) => {
-  const { token } = req.cookies
+  const token = req.cookies.token || req.get('token')
   if (token) {
     const { id } = jwt.verify(token, process.env.JWT_SECRET)
     req.userId = id
