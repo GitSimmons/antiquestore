@@ -18,12 +18,13 @@ const getToken = ({ id, email }) => {
     { expiresIn: '1y' })
   return token
 }
+
 const Mutation = {
   async createItem (parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to create an item')
     }
-    const item = await ctx.db.mutation.createItem({
+    return ctx.db.mutation.createItem({
       data: {
         ...args,
         createdBy: {
@@ -33,16 +34,24 @@ const Mutation = {
         }
       }
     })
-    return item
   },
   async deleteItem (parent, { id }, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to delete an item')
     }
-    const item = await ctx.db.mutation.deleteItem({
+    const item = await ctx.db.query.item({
+      where: { id }
+    }, '{id, createdBy {id}}')
+    const ownsItem = item.createdBy.id === ctx.request.userId
+    const hasPermission = ctx.request.user.permissions.some(
+      (permission) => ['ADMIN', 'ITEMDELETE'].includes(permission)
+    )
+    if (!ownsItem && !hasPermission) {
+      throw new Error('Insufficient permissions')
+    }
+    return ctx.db.mutation.deleteItem({
       where: { id }
     })
-    return item
   },
   async updateItem (parent, args, ctx, info) {
     const { where, data } = args
