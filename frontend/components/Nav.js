@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Router from 'next/router'
 import { Button, Container, Image, Menu, Responsive, Segment, Sticky, Transition, Visibility } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { Mutation } from 'react-apollo'
 import SignOut from './SignOut'
 import User from './User'
+import { TOGGLE_CART_MUTATION } from './Cart'
 
 // Menu example largely based on semantic ui docs
 
@@ -62,7 +64,11 @@ const DesktopContainer = ({ children }) => {
               size='small'
             >
               <Menu.Item a='/sell' onClick={handleItemClick} >Sell</Menu.Item>
-              <Menu.Item a='/Cart' onClick={handleItemClick} >Cart</Menu.Item>
+              <Mutation mutation={TOGGLE_CART_MUTATION}>
+                { toggleCartMutation =>
+                  <Menu.Item a='/Cart' onClick={toggleCartMutation} >Cart</Menu.Item>
+                }
+              </Mutation>
               <Menu.Item a='/Account' onClick={handleItemClick} >Account</Menu.Item>
               <User>
                 {data => {
