@@ -4,7 +4,7 @@ import { Form } from 'semantic-ui-react'
 import { useState } from 'react'
 
 const SIGNUP_MUTATION = gql`
-mutation createUser($name: String, $email: String, $password: String) {
+mutation createUser($name: String!, $email: String!, $password: String!) {
   createUser(
     name: $name
     email: $email
