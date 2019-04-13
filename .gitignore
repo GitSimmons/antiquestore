@@ -5,3 +5,4 @@ node_modules/
 layout.md
 variables.env
 .vscode/
+generated/
