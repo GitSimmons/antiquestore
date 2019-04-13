@@ -6,6 +6,7 @@ import { ConvertToCurrency } from '../lib/utils'
 import Pagination from './Pagination'
 import { perPage } from '../lib/config'
 import User from './User'
+import AddToCart from './AddToCart'
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY(
@@ -67,6 +68,7 @@ const Items = (props) => {
                         {item.description && <Card.Description>{item.description}</Card.Description>}
                       </Card.Content>
                       <Card.Content extra>
+                        <AddToCart id={item.id} />
                         <Button negative circular icon='trash' floated='right'
                           onClick={async () => {
                             await deleteItem()
