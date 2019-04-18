@@ -8,33 +8,37 @@ enum Permission {
 }
 
 type CartItem {
-  id: ID! @unique
-  item: Item!
+  id: ID! @id
+  item: Item @relation(link : TABLE)
   quantity: Int! @default (value: 1)
-  user: User!
+  user: User! @relation(link : TABLE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type User {
-  id: ID! @unique
+  id: ID! @id
   name: String!
   email: String! @unique
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  permissions: [Permission]
-  cart: [CartItem!]!
+  permissions: [Permission]  @scalarList(strategy: RELATION)
+  cart: [CartItem!]!  
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Item {
-  id: ID! @unique
+  id: ID! @id
   title: String!
   description: String!
   image: String
-  images: [String!]
-  largeImages: [String!]
+  images: [String!]  @scalarList(strategy: RELATION)
+  largeImages: [String!]  @scalarList(strategy: RELATION)
   price: Int
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   cost: Int
   consigner: String
   consignmentRate: Int
@@ -43,5 +47,5 @@ type Item {
   sold: Boolean
   soldTo: String
   soldFor: Int
-  createdBy: User!
+  createdBy: User! @relation(link : TABLE)
 }
