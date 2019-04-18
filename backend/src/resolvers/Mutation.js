@@ -180,7 +180,25 @@ const Mutation = {
           id: ctx.request.userId
         }
       } }
-    })
+    }, info)
+  },
+  async removeFromCart (parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.')
+    }
+    const [item] = await ctx.db.query.cartItems(
+      {
+        where: {
+          id: args.id,
+          user: { id: ctx.request.userId }
+        }
+      }, `{id}`)
+    if (!item) {
+      throw new Error('No such item')
+    }
+    return ctx.db.mutation.deleteCartItem({
+      where: { id: item.id }
+    }, info)
   }
 }
 
