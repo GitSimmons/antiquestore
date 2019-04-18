@@ -68,7 +68,7 @@ const Items = (props) => {
                         {item.description && <Card.Description>{item.description}</Card.Description>}
                       </Card.Content>
                       <Card.Content extra>
-                        <AddToCart id={item.id} />
+                        <AddToCart id={item.id} item={item} />
                         <Button negative circular icon='trash' floated='right'
                           onClick={async () => {
                             await deleteItem()
