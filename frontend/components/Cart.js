@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Button, Header, Icon, Image, Item, List, Menu, Segment, Sidebar, Table } from 'semantic-ui-react'
 import { ConvertToCurrency } from '../lib/utils'
 import { Query, Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
-
+import CartItem from './CartItem'
+import User from './User'
 const LOCAL_STATE_QUERY = gql`
  query {
    cartOpen @client
@@ -14,50 +15,64 @@ const TOGGLE_CART_MUTATION = gql`
   toggleCart @client
 }
 `
+
 const Cart = () => {
-  // some fake data
-  const items = ['Item 1', 'Item 2']
-  const total = 2000
-
   return (
-    <Query query={LOCAL_STATE_QUERY}>
-      {({ data: { cartOpen } }) =>
-        <Mutation mutation={TOGGLE_CART_MUTATION}>
-          {toggleCartMutation =>
-            <Sidebar
-              as={Menu}
-              animation='overlay'
-              icon='labeled'
-              inverted
-              vertical
-              visible={cartOpen}
-              onHide={toggleCartMutation}
-              width='thin'
-              direction='right'
-            >
+    <User>
+      {({ currentUser }) => {
+        return (
+          <Query query={LOCAL_STATE_QUERY}>
+            {({ data: { cartOpen } }) =>
+              <Mutation mutation={TOGGLE_CART_MUTATION}>
+                {toggleCartMutation =>
+                  <Sidebar
+                    as={Menu}
+                    animation='overlay'
+                    vertical
+                    visible={cartOpen}
+                    // onHide={toggleCartMutation}
+                    width='wide'
+                    direction='right'
+                    icon='labeled'
+                  >
+                    <Menu.Item onClick={toggleCartMutation}>
+                      <Icon name='close' />
+                    </Menu.Item>
 
-              <Menu.Item as='a' onClick={toggleCartMutation}>
-                <Icon name='close' />
-              </Menu.Item>}
+                    <Menu.Item>
+                      { currentUser && <p> You have {currentUser.cart.length} item{currentUser.cart.length === 1 ? ''
+                        : 's'} in your cart</p>}
+                    </Menu.Item>
+                    <Menu.Menu>
 
-              <Menu.Item>
-                <p> You have {items.length} items in your cart</p>
-              </Menu.Item>
-              <Menu.Item>
-                {items.map(item => <p key={item}><a href='#'>{item}</a></p>)}
-
-              </Menu.Item>
-              <Menu.Item >
-              Your total is {ConvertToCurrency(total)}
-              </Menu.Item>
-              <Menu.Item as='a'>
-                <Icon name='shopping cart' />
+                      <Table>
+                        <Table.Body>
+                          {currentUser.cart.map(
+                            cartItem =>
+                              <CartItem cartItem={cartItem} key={cartItem.id} />
+                          )}
+                        </Table.Body>
+                      </Table>
+                    </Menu.Menu>
+                    <Menu.Item >
+                      Your total is {ConvertToCurrency(
+                        currentUser.cart.reduce((accumulator, currentValue) => {
+                          if (!currentValue) {
+                            return accumulator
+                          }
+                          return accumulator + currentValue.item.price
+                        }, 0))}
+                    </Menu.Item>
+                    <Menu.Item as='a'>
+                      <Icon name='shopping cart' />
               Checkout
-              </Menu.Item>
-            </Sidebar>
-          }</Mutation>
-      }
-    </Query>
+                    </Menu.Item>
+                  </Sidebar>
+                }</Mutation>
+            }
+          </Query>)
+      }}
+    </User>
   )
 }
 export default Cart

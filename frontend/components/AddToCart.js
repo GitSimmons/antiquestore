@@ -13,7 +13,11 @@ const ADD_TO_CART_MUTATION = gql`
 
 const AddToCart = ({ id }) => {
   return (
-    <Mutation mutation={ADD_TO_CART_MUTATION} variables={{ id }}>
+    <Mutation
+      mutation={ADD_TO_CART_MUTATION}
+      variables={{ id }}
+      refetchQueries={['CURRENT_USER_QUERY']}
+    >
       {addToCartMutation =>
         <Button negative circular icon='cart' floated='right' onClick={addToCartMutation} />
       }
