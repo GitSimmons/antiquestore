@@ -13,7 +13,7 @@ const CartItem = ({ cartItem }) => {
         <Image src={cartItem.item.image} size='tiny' />
       </Table.Cell>
       <Table.Cell onClick={handleClick}>
-        <Header size='m'>
+        <Header>
           {cartItem.item.title}
         </Header>
       </Table.Cell>
