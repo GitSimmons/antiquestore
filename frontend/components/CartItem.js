@@ -1,5 +1,4 @@
-import { Content, Header, Menu, Icon, Item, Image, Table } from 'semantic-ui-react'
-import styled from 'styled-components'
+import { Header, Icon, Item, Image, Table } from 'semantic-ui-react'
 import Router from 'next/router'
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
@@ -57,7 +56,9 @@ const CartItem = ({ cartItem }) => {
         {removeFromCartMutation => {
           return (
             <Table.Cell>
-              <Icon name='close' onClick={removeFromCartMutation} />
+              <a>
+                <Icon name='close' onClick={removeFromCartMutation} />
+              </a>
             </Table.Cell>)
         }}
       </Mutation>

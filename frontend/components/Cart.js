@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Button, Header, Icon, Image, Item, List, Menu, Segment, Sidebar, Table } from 'semantic-ui-react'
+import { Icon, Menu, Sidebar, Table } from 'semantic-ui-react'
 import { ConvertToCurrency } from '../lib/utils'
 import { Query, Mutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
@@ -38,13 +37,11 @@ const Cart = () => {
                     <Menu.Item onClick={toggleCartMutation}>
                       <Icon name='close' />
                     </Menu.Item>
-
                     <Menu.Item>
                       { currentUser && <p> You have {currentUser.cart.length} item{currentUser.cart.length === 1 ? ''
                         : 's'} in your cart</p>}
                     </Menu.Item>
                     <Menu.Menu>
-
                       <Table>
                         <Table.Body>
                           {currentUser.cart.map(
@@ -64,8 +61,7 @@ const Cart = () => {
                         }, 0))}
                     </Menu.Item>
                     <Menu.Item as='a'>
-                      <Icon name='shopping cart' />
-              Checkout
+                      <Icon name='shopping cart' />Checkout
                     </Menu.Item>
                   </Sidebar>
                 }</Mutation>
