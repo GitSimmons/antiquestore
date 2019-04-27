@@ -3,4 +3,15 @@ const ConvertToCurrency = (AmountInt) => {
     `${(AmountInt / 100).toFixed(2)}$`
   )
 }
-export { ConvertToCurrency }
+
+const debounce = (fn, time) => {
+  let timeout
+
+  return function () {
+    const functionCall = () => fn.apply(this, arguments)
+    clearTimeout(timeout)
+    timeout = setTimeout(functionCall, time)
+  }
+}
+
+export { ConvertToCurrency, debounce }
