@@ -16,7 +16,7 @@ function createClient ({ headers }) {
     },
     clientState: {
       defaults: {
-        cartOpen: true
+        cartOpen: false
       },
       resolvers: {
         Mutation: {
