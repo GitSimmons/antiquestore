@@ -27,7 +27,7 @@ const CartItem = ({ cartItem }) => {
     Router.push(`/item?id=${cartItem.item.id}`)
   }
   return (
-    <Table.Row >
+    <Table.Row>
       <Table.Cell onClick={handleClick}>
         <Image src={cartItem.item.image} size='tiny' />
       </Table.Cell>

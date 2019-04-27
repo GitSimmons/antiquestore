@@ -42,9 +42,9 @@ const Cart = () => {
                         : 's'} in your cart</p>}
                     </Menu.Item>
                     <Menu.Menu>
-                      <Table>
+                      <Table unstackable basic='very'>
                         <Table.Body>
-                          {currentUser.cart.map(
+                          {currentUser && currentUser.cart.map(
                             cartItem =>
                               <CartItem cartItem={cartItem} key={cartItem.id} />
                           )}
@@ -53,7 +53,7 @@ const Cart = () => {
                     </Menu.Menu>
                     <Menu.Item >
                       Your total is {ConvertToCurrency(
-                        currentUser.cart.reduce((accumulator, currentValue) => {
+                        currentUser && currentUser.cart.reduce((accumulator, currentValue) => {
                           if (!currentValue) {
                             return accumulator
                           }

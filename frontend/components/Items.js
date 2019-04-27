@@ -5,7 +5,6 @@ import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
 import Pagination from './Pagination'
 import { perPage } from '../lib/config'
-import User from './User'
 import AddToCart from './AddToCart'
 
 const ALL_ITEMS_QUERY = gql`
