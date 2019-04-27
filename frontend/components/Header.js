@@ -4,6 +4,7 @@ import Cart from './Cart'
 import Nav from './Nav'
 
 Router.onRouteChangeStart = () => {
+  NProgress.configure({ showSpinner: false })
   NProgress.start()
 }
 Router.onRouteChangeComplete = () => {
