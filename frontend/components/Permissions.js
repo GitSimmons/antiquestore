@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Query, Mutation } from 'react-apollo'
 import { Icon, Table, Button } from 'semantic-ui-react'
 import { useState } from 'react'

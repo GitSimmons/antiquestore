@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
 const SINGLE_ITEM_QUERY = gql`

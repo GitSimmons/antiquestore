@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { Card } from 'semantic-ui-react'
 import Pagination from './Pagination'

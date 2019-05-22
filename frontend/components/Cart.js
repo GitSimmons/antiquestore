@@ -1,7 +1,7 @@
 import { Icon, Menu, Sidebar, Table } from 'semantic-ui-react'
 import { ConvertToCurrency } from '../lib/utils'
 import { Query, Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import CartItem from './CartItem'
 import User from './User'
 const LOCAL_STATE_QUERY = gql`

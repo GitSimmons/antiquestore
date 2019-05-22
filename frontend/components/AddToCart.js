@@ -1,5 +1,5 @@
 import { Mutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Button } from 'semantic-ui-react'
 import { TOGGLE_CART_MUTATION } from './Cart.js'
 import { CURRENT_USER_QUERY } from './User.js'

@@ -1,6 +1,6 @@
 import { Header, Icon, Item, Image, Table } from 'semantic-ui-react'
 import Router from 'next/router'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { ConvertToCurrency } from '../lib/utils'
 import { CURRENT_USER_QUERY } from './User'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pagination } from 'semantic-ui-react'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { perPage } from '../lib/config'
 import Router, { withRouter } from 'next/router'

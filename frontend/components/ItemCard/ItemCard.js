@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { Button, Card, Image, Modal, Header, Icon } from 'semantic-ui-react'
 import { ConvertToCurrency } from '../../lib/utils'

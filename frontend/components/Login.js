@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { useState } from 'react'
 import { Form, Grid, Button, Segment, Divider, Label, Input, Image, Message, Modal } from 'semantic-ui-react'
