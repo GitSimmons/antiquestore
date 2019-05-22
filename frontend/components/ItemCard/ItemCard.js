@@ -1,6 +1,4 @@
-import { Mutation } from 'react-apollo'
-import { useMutation } from 'react-apollo-hooks'
-import { Button, Card, Image, Modal, Header, Icon } from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 import { ConvertToCurrency } from '../../lib/utils'
 import AddToCart from '../AddToCart'
 import UpdateItemButton from './UpdateItemButton'
