@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Input, Search } from 'semantic-ui-react'
-import Downshift, { resetIdCounter } from 'downshift'
 import { debounce, ConvertToCurrency } from '../lib/utils'
 import { ApolloConsumer } from 'react-apollo'
 import { gql } from 'apollo-boost'
@@ -60,28 +59,19 @@ const SearchBar = (props) => {
   const resultRenderer = ({ title, image, price }) => <><p>{title}</p><span>{ConvertToCurrency(price)}</span></>
   return (
     <ApolloConsumer>
-      {(client => (
-        <Downshift>
-          {downshift =>
-            <div>
-              <Search
-                size='mini'
-                loading={isLoading}
-                onResultSelect={handleResultSelect}
-                resultRenderer={resultRenderer}
-                // onSearchChange={debounce(handleSearchChange, 20)}
-                onSearchChange={(e) => handleSearchChange(e, client)}
-                results={results}
-                value={value}
-                {...props}
-                // input='text'
-              />
-            </div>
-          }
-
-        </Downshift>
-      ))}
-
+      {client => (
+        <Search
+          loading={isLoading}
+          onResultSelect={handleResultSelect}
+          resultRenderer={resultRenderer}
+          // onSearchChange={debounce(handleSearchChange, 20)}
+          onSearchChange={(e) => handleSearchChange(e, client)}
+          results={results}
+          value={value}
+          {...props}
+          // input={{ icon: 'search', iconPosition: 'left' }}
+        />)
+      }
     </ApolloConsumer>
   )
 }

@@ -7,7 +7,6 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "apollo-boost": "^0.1.27",
-    "downshift": "^3.2.7",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "next": "^7.0.2",
