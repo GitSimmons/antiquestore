@@ -1,9 +1,8 @@
 import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
 import { Card } from 'semantic-ui-react'
 import Pagination from './Pagination'
 import { perPage } from '../lib/config'
-
+import { useQuery } from 'react-apollo-hooks'
 import ItemCard from './ItemCard/ItemCard'
 
 const ALL_ITEMS_QUERY = gql`
@@ -27,14 +26,14 @@ const ALL_ITEMS_QUERY = gql`
 
 const Items = (props) => {
   const page = parseFloat(props.page)
+  const { data, error, loading, refetch } = useQuery(ALL_ITEMS_QUERY, {
+    variables: {
+      skip: page * perPage - perPage
+    }
+  })
+  if (loading) return <div> Loading... </div>
+  if (error) return <div> Error... </div>
   return (
-  <>
-    <Query query={ALL_ITEMS_QUERY}
-      variables={{ skip: page * perPage - perPage }}>
-      {({ loading, error, data, refetch }) => {
-        if (loading) return <div> Loading... </div>
-        if (error) return <div> Error... </div>
-        return (
         <>
           <Pagination page={page} refetch={refetch} />
           <Card.Group centered stackable>
@@ -45,10 +44,6 @@ const Items = (props) => {
           </Card.Group>
           <Pagination page={page} refetch={refetch} />
         </>
-        )
-      }}
-    </Query>
-  </>
   )
 }
 
