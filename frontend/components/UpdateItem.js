@@ -89,7 +89,7 @@ const UpdateItem = (props) => {
                   {image && <Image src={image} size='medium' centered />}
                   <input id='upload-image-input' type='file' placeholder='file' onChange={(e) => uploadFile(e.target.files[0])} />
                 </Form.Field> */}
-                <Form.Button primary>Submit</Form.Button>
+                <Form.Button primary>Update Item</Form.Button>
               </Form>
             }
           </Mutation>)
