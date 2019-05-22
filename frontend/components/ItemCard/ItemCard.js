@@ -13,7 +13,6 @@ mutation DELETE_ITEM_MUTATION($id: ID!) {
 }
 `
 const ItemCard = ({ item, refetch }) => {
-  console.log(item)
   return (
     <Mutation
       mutation={DELETE_ITEM_MUTATION}
