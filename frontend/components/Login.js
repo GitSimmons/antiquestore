@@ -1,9 +1,10 @@
 import { gql } from 'apollo-boost'
 import { Mutation } from 'react-apollo'
 import { useState } from 'react'
-import { Form, Grid, Button, Segment, Divider, Label, Input, Image, Message } from 'semantic-ui-react'
+import { Form, Grid, Button, Segment, Divider, Label, Input, Image, Message, Modal } from 'semantic-ui-react'
 import Router from 'next/router'
 import User from './User'
+import SignUp from './Signup'
 
 const LOGIN_MUTATION = gql`
 mutation logIn(
@@ -48,7 +49,16 @@ const Login = () => {
               </Form>
             </Grid.Column>
             <Grid.Column verticalAlign='middle'>
-              <Button content='Sign up' icon='signup' size='big' onClick={() => Router.push('/signup')} />
+              <Modal dimmer='blurring' trigger={
+                <Button content='Sign up' icon='signup' size='big' />
+              }>
+                <Modal.Header>
+                Create a new account
+                </Modal.Header>
+                <Modal.Content>
+                  <SignUp />
+                </Modal.Content>
+              </Modal>
             </Grid.Column>
           </Grid>
           <Divider vertical>Or</Divider>

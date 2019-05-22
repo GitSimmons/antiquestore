@@ -1,44 +1,33 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
-import { Button, Container, Header, Icon, Image, Menu, Responsive, Segment, Sticky, Transition, Visibility } from 'semantic-ui-react'
-import styled from 'styled-components'
+import { Menu, Modal, Popup } from 'semantic-ui-react'
 import { Mutation } from 'react-apollo'
 import SignOut from './SignOut'
 import User from './User'
 import { TOGGLE_CART_MUTATION } from './Cart'
 import Search from './Search'
 import Cat from './Cat'
+import styled from 'styled-components'
+import Login from './Login'
 
-// const getWidth = () => {
-//   const isSSR = typeof window === 'undefined'
+const StyledNav = styled.div`
+padding-bottom: 5rem;
+`
 
-//   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
-// }
-
-const DesktopContainer = ({ children }) => {
+const Nav = ({ children }) => {
   const handleItemClick = (e, { a }) => { a && Router.push(a) }
   return (
-    <Responsive>
-      <Container fixed='top' />
+    <StyledNav>
       <Menu borderless fixed='top' >
-        <Menu.Item>
-          <Icon name='bars' size='large' />
-        </Menu.Item>
-        <Menu.Item fitted='horizontally' >
+        <Menu.Item >
           <Cat onClick={() => Router.push('/')} />
         </Menu.Item>
-        <Menu.Item fitted='horizontally'>
-
-          <Header size='small' onClick={() => Router.push('/')}>
-          Aunt Sadie's Antiques
-          </Header>
+        <Menu.Item>
+          <Search />
         </Menu.Item>
         <Menu.Menu
           position='right'
         >
-          <Menu.Item>
-            <Search />
-          </Menu.Item>
           <User>
             {data => {
               return (
@@ -52,7 +41,10 @@ const DesktopContainer = ({ children }) => {
 
                   <Menu.Item disabled={!data.currentUser} a='/Account' onClick={handleItemClick} icon='user'></Menu.Item>
                   {!data.currentUser
-                    ? <Menu.Item a='/login' onClick={handleItemClick}> Log In </Menu.Item>
+                    ? <Modal trigger={<Menu.Item as='a'> Log In </Menu.Item>} dimmer='blurring' size='small' >
+                      <Login />
+                    </Modal>
+
                     : <SignOut>
                       {signOut =>
                         <Menu.Item onClick={signOut}> Log Out </Menu.Item>
@@ -65,8 +57,8 @@ const DesktopContainer = ({ children }) => {
           </User>
         </Menu.Menu>
       </Menu>
-    </Responsive>
+    </StyledNav>
   )
 }
 
-export default DesktopContainer
+export default Nav
