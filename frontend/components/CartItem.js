@@ -26,6 +26,45 @@ const CartItem = ({ cartItem }) => {
   const handleClick = () => {
     Router.push(`/item?id=${cartItem.item.id}`)
   }
+  // Check if the cart item exists, add dummy entry if it does not
+  if (!cartItem.item) {
+    return (<Table.Row>
+      <Table.Cell onClick={handleClick}>
+        <Image src='/static/image.png' size='tiny' />
+      </Table.Cell>
+      <Table.Cell>
+        <Header>
+          This item no longer exists
+        </Header>
+      </Table.Cell>
+      <Table.Cell>
+        <Item.Meta> 0.00$</Item.Meta>
+      </Table.Cell>
+      <Table.Cell>
+        <Mutation
+          mutation={REMOVE_FROM_CART_MUTATION}
+          variables={{ id: cartItem.id }}
+          update={update}
+          optimisticResponse={{
+            __typename: 'Mutation',
+            removeFromCart: {
+              __typename: 'CartItem',
+              id: cartItem.id
+            }
+          }}
+        >
+          {removeFromCartMutation => {
+            return (
+              <Table.Cell>
+                <a>
+                  <Icon name='close' onClick={removeFromCartMutation} />
+                </a>
+              </Table.Cell>)
+          }}
+        </Mutation>
+      </Table.Cell>
+    </Table.Row>)
+  }
   return (
     <Table.Row>
       <Table.Cell onClick={handleClick}>

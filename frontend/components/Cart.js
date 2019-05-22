@@ -54,7 +54,7 @@ const Cart = () => {
                     <Menu.Item >
                       Your total is {ConvertToCurrency(
                         currentUser && currentUser.cart.reduce((accumulator, currentValue) => {
-                          if (!currentValue) {
+                          if (!currentValue.item) {
                             return accumulator
                           }
                           return accumulator + currentValue.item.price
