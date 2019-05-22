@@ -1,11 +1,13 @@
 import { gql } from 'apollo-boost'
 import { Query, Mutation } from 'react-apollo'
-import { Card, Image, Button } from 'semantic-ui-react'
+import { Button, Card, Image, Modal, Header, Icon } from 'semantic-ui-react'
 import Router from 'next/router'
 import { ConvertToCurrency } from '../lib/utils'
 import Pagination from './Pagination'
 import { perPage } from '../lib/config'
 import AddToCart from './AddToCart'
+import SingleItem from './SingleItem'
+import UpdateItem from './UpdateItem'
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY(
@@ -68,12 +70,40 @@ const Items = (props) => {
                       </Card.Content>
                       <Card.Content extra>
                         <AddToCart id={item.id} item={item} />
-                        <Button negative circular icon='trash' floated='right'
-                          onClick={async () => {
-                            await deleteItem()
-                            refetch()
-                          }} />
-                        <Button primary circular icon='pencil' floated='right' onClick={() => Router.push(`/edit?id=${item.id}`)} />
+                        <Modal
+                          basic
+                          closeIcon
+                          dimmer='blurring'
+                          size='small'
+                          trigger={
+                            <Button negative circular icon='trash' floated='right' />
+                          }
+                        >
+                          <Header icon='trash' content='Delete Item' />
+                          <Modal.Content>
+                            <p>
+                              Are you sure you want to delete {item.title} ?
+                            </p>
+                          </Modal.Content>
+                          <Modal.Actions >
+                            <Button basic color='red' inverted>
+                              <Icon name='remove' /> No
+                            </Button>
+                            <Button color='green' inverted onClick={async () => {
+                              await deleteItem()
+                              refetch()
+                            }}>
+                              <Icon name='checkmark' /> Yes
+                            </Button>
+                          </Modal.Actions>
+                        </Modal>
+                        <Modal trigger={<Button primary circular icon='pencil' floated='right' />} dimmer='blurring'>
+                          <Modal.Header>{item.title}</Modal.Header>
+                          <Modal.Content image>
+                            <Image wrapped size='medium' src={item.image} />
+                            <UpdateItem id={item.id} />
+                          </Modal.Content>
+                        </Modal>
                       </Card.Content>
                     </Card>}
                 </Mutation>
