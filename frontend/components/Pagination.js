@@ -23,14 +23,14 @@ padding: 1rem;
 `
 
 const PaginationComponent = ({ page, refetch, router }) => {
-  router.prefetch({
-    pathname: '/',
-    query: { page: page + 1 }
-  })
-  router.prefetch({
-    pathname: '/',
-    query: { page: page - 1 }
-  })
+  // router.prefetch({
+  //   pathname: '/',
+  //   query: { page: page + 1 }
+  // })
+  // router.prefetch({
+  //   pathname: '/',
+  //   query: { page: page - 1 }
+  // })
   const pageChangeHandler = async (e, data) => {
     await Router.push({
       pathname: '/',
