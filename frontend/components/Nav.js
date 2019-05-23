@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
-import { Menu, Modal, Popup } from 'semantic-ui-react'
+import { Menu, Modal, Icon } from 'semantic-ui-react'
 import { Mutation } from 'react-apollo'
 import SignOut from './SignOut'
 import User from './User'
@@ -32,7 +32,7 @@ const Nav = ({ children }) => {
             {data => {
               return (
                 <>
-                  <Menu.Item disabled={!data.currentUser} a='/sell' onClick={handleItemClick} >Sell</Menu.Item>
+                  <Menu.Item disabled={!data.currentUser} a='/sell' icon='usd' onClick={handleItemClick} ></Menu.Item>
                   <Mutation mutation={TOGGLE_CART_MUTATION}>
                     { toggleCartMutation =>
                       <Menu.Item disabled={!data.currentUser} a='/Cart' icon='cart' onClick={toggleCartMutation} ></Menu.Item>
