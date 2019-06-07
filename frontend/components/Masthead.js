@@ -15,7 +15,7 @@ const images = [
     description: `Find the perfect gift that's too valuable for them to throw away.`,
     credit: `Andrej Ivanov`,
     backgroundColor: 'black',
-    src: `/static/hero1.jpg`,
+    src: `https://res.cloudinary.com/acloudforben/image/upload/c_scale,f_auto,w_1980,q_80/v1559926068/auntsadies/hero1.jpg`,
     a: 'https://andrejiphotography.com/'
   }
 ]
