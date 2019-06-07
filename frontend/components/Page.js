@@ -4,6 +4,7 @@ import GlobalStyle from './styles/GlobalStyle'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
+import Head from 'next/head'
 
 const theme = {
   blue: '#34b8e4',
@@ -25,6 +26,12 @@ const Inner = styled.div`
 const Page = props =>
   <>
     <GlobalStyle />
+    <Head>
+      <link
+        rel='stylesheet'
+        href='//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css'
+      />
+    </Head>
     <ThemeProvider theme={theme}>
       <StyledPage>
         <Meta />
