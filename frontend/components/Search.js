@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { Input, Search } from 'semantic-ui-react'
+import { Search } from 'semantic-ui-react'
 import { debounce, convertToCurrency } from '../lib/utils'
 import { ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Query, Mutation } from 'react-apollo'
 import Router from 'next/router'
 import AddToCart from './AddToCart'
 

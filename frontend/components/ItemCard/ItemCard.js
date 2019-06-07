@@ -1,4 +1,4 @@
-import { Button, Card, Dimmer, Image, Loader, Segment } from 'semantic-ui-react'
+import { Button, Card, Image } from 'semantic-ui-react'
 import { convertToCurrency } from '../../lib/utils'
 import AddToCart from '../AddToCart'
 import UpdateItemButton from './UpdateItemButton'
