@@ -31,11 +31,20 @@ const Items = (props) => {
       skip: page * perPage - perPage
     }
   })
-  if (loading) return <div> Loading... </div>
+  if (loading) {
+    return (
+      <Card.Group centered stackable>
+        {
+          [...Array(perPage)].map((e, index) =>
+            <ItemCard key={index} />
+          )
+        }
+      </Card.Group>)
+  }
   if (error) return <div> Error... </div>
   return (
         <>
-          <Pagination page={page} refetch={refetch} />
+          {/* <Pagination page={page} refetch={refetch} /> */}
           <Card.Group centered stackable>
             {data.items.map(
               (item) =>
