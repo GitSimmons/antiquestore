@@ -1,9 +1,10 @@
 import { Icon, Menu, Sidebar, Table } from 'semantic-ui-react'
-import { ConvertToCurrency } from '../lib/utils'
+import { convertToCurrency } from '../lib/utils'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import CartItem from './CartItem'
 import User from './User'
+
 const LOCAL_STATE_QUERY = gql`
  query {
    cartOpen @client
@@ -52,7 +53,7 @@ const Cart = () => {
                       </Table>
                     </Menu.Menu>
                     <Menu.Item >
-                      Your total is {ConvertToCurrency(
+                      Your total is {convertToCurrency(
                         currentUser && currentUser.cart.reduce((accumulator, currentValue) => {
                           if (!currentValue.item) {
                             return accumulator

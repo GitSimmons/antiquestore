@@ -3,7 +3,7 @@ import Router from 'next/router'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { useMutation } from 'react-apollo-hooks'
-import { ConvertToCurrency } from '../lib/utils'
+import { convertToCurrency } from '../lib/utils'
 import { CURRENT_USER_QUERY } from './User'
 
 const REMOVE_FROM_CART_MUTATION = gql`
@@ -52,7 +52,7 @@ const CartItem = ({ cartItem }) => {
       </Table.Cell>
       <Table.Cell>
         <Item.Meta>
-          {ConvertToCurrency(cartItem.item ? cartItem.item.price : 0)}
+          {convertToCurrency(cartItem.item ? cartItem.item.price : 0)}
         </Item.Meta>
       </Table.Cell>
       <Table.Cell>
