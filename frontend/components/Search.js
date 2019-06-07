@@ -62,11 +62,9 @@ const SearchBar = () => {
           loading={isLoading}
           onResultSelect={handleResultSelect}
           resultRenderer={resultRenderer}
-          // onSearchChange={debounce(handleSearchChange, 20)}
           onSearchChange={(e) => handleSearchChange(e, client)}
           results={results}
           value={value}
-          // input={{ icon: 'search', iconPosition: 'left' }}
         />)
       }
     </ApolloConsumer>
