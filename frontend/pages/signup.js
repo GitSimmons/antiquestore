@@ -1,5 +1,5 @@
 import SignUp from '../components/Signup'
 
-const Page = () => <div><SignUp /></div>
+const SignUpPage = () => <div><SignUp /></div>
 
-export default Page
+export default SignUpPage
