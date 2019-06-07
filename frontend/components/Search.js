@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { Input, Search } from 'semantic-ui-react'
-import { debounce, ConvertToCurrency } from '../lib/utils'
+import { debounce, convertToCurrency } from '../lib/utils'
 import { ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Query, Mutation } from 'react-apollo'
 import Router from 'next/router'
 import AddToCart from './AddToCart'
-import { runInContext } from 'vm'
 
 const SEARCH_ITEMS_QUERY = gql`
 query SEARCH_ITEMS_QUERY($searchQuery: String) {
@@ -23,10 +22,11 @@ query SEARCH_ITEMS_QUERY($searchQuery: String) {
   }
 }
 `
-const SearchBar = (props) => {
+const SearchBar = () => {
   const [isLoading, setLoading] = useState(false)
   const [results, setResults] = useState([])
   const [value, setValue] = useState('')
+
   const resetSearch = () => {
     setLoading(false)
     setResults([])
@@ -36,7 +36,8 @@ const SearchBar = (props) => {
     setValue(result.title)
     Router.push(`/item?id=${result.id}`)
   }
-  const handleSearchChange = async (e, client) => {
+
+  const handleSearchChange = debounce(async (e, client) => {
     e.persist()
     setLoading(true)
     setValue(e.target.value)
@@ -46,17 +47,14 @@ const SearchBar = (props) => {
         searchQuery: e.target.value
       }
     })
+    // Convert price from number to string to keep Search happy
+    for (let item of res.data.items) {
+      item.price = item.price.toString()
+    }
     setResults(res.data.items)
     setLoading(false)
-    // setTimeout(() => {
-    //   if (value.length < 1) return resetSearch()
-    //   const re = value
-    //   const isMatch = result => re.test(result.title)
-    //   setLoading(false)
-    //   setResults((prevResults) => prevResults.filter(isMatch))
-    // }, 500)
-  }
-  const resultRenderer = ({ title, image, price }) => <><p>{title}</p><span>{ConvertToCurrency(price)}</span></>
+  }, 300, true)
+  const resultRenderer = ({ title, image, price }) => <><p>{title}</p><span>{convertToCurrency(price)}</span></>
   return (
     <ApolloConsumer>
       {client => (
@@ -68,7 +66,6 @@ const SearchBar = (props) => {
           onSearchChange={(e) => handleSearchChange(e, client)}
           results={results}
           value={value}
-          {...props}
           // input={{ icon: 'search', iconPosition: 'left' }}
         />)
       }
