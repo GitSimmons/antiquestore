@@ -58,11 +58,12 @@ const UpdateItem = (props) => {
   // }
 
   const handleSubmit = async (updateItem, item) => {
+    setLoading(true)
     await updateItem({ variables: {
       id: props.id,
       ...updates
     } })
-    setLoading(true)
+    setLoading(false)
     Router.push('/')
   }
   return (
