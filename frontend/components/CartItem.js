@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo'
 import { useMutation } from 'react-apollo-hooks'
 import { convertToCurrency } from '../lib/utils'
 import { CURRENT_USER_QUERY } from './User'
+import styled from 'styled-components'
 
 const REMOVE_FROM_CART_MUTATION = gql`
 mutation REMOVE_FROM_CART_MUTATION($id: ID!) {
@@ -22,6 +23,13 @@ const update = (store, payload) => {
     data
   })
 }
+
+const StyledCartItemImage = styled(Image)`
+margin-left: 1rem;
+height: 5rem !important;
+width: 5rem !important;
+object-fit: cover;
+`
 
 const CartItem = ({ cartItem }) => {
   const handleClick = () => {
@@ -43,7 +51,7 @@ const CartItem = ({ cartItem }) => {
   return (
     <Table.Row>
       <Table.Cell onClick={handleClick}>
-        <Image src={cartItem.item ? cartItem.item.image : '/static/image.png'} size='tiny' />
+        <StyledCartItemImage circular src={cartItem.item ? cartItem.item.image : '/static/image.png'} size='tiny' />
       </Table.Cell>
       <Table.Cell onClick={handleClick}>
         <Header>
