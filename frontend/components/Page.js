@@ -7,7 +7,7 @@ import Head from 'next/head'
 
 const theme = {
   blue: '#34b8e4',
-  maxWidth: '1000px'
+  maxWidth: '1280px'
 }
 
 const StyledPage = styled.div`
