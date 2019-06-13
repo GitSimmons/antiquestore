@@ -10,12 +10,14 @@ mutation CreateItem(
   $description: String!
   $price: Int
   $image: String
+  $images: [String]
 ) {
   createItem(
     title: $title
     description: $description
     price: $price
     image: $image
+    images: $images
   ) {
     id
     title
@@ -28,28 +30,34 @@ const CreateItem = () => {
   const [price, setPrice] = useState(0)
   const [description, setDescription] = useState()
   const [loading, setLoading] = useState(false)
-  const [image, setImage] = useState()
-  const [largeImage, setLargeImage] = useState()
+  const [images, setImages] = useState([])
 
   const uploadFile = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
     const data = new FormData()
     data.append('file', file)
     // TODO: Create more appropriate upload preset
-    data.append('upload_preset', 'sickfits')
+    data.append('upload_preset', 'auntsadies')
+    data.append('tags', 'browser_upload')
     const res = await fetch(url,
       {
         method: 'POST',
         body: data
       })
     const { secure_url } = await res.json()
-    setImage(secure_url)
+    setImages((prevImages) => [...prevImages, secure_url])
+  }
+
+  const uploadFiles = async (files) => {
+    for (var i = 0; i < files.length; i++) {
+      uploadFile(files[i]) // call the function to upload the file
+    }
   }
 
   const handleSubmit = async (createItem) => {
     setLoading(true)
     await createItem({ variables: {
-      title, price, description, image
+      title, price, description, images, image: images[0]
     } })
     Router.push('/')
   }
@@ -67,8 +75,8 @@ const CreateItem = () => {
             </Input>
           </Form.Field>
           <Form.Field>
-            {image && <Image src={image} size='medium' centered />}
-            <input id='upload-image-input' type='file' placeholder='file' onChange={(e) => uploadFile(e.target.files[0])} />
+            {images && images.map(image => <Image src={image} key={image} size='medium' centered />)}
+            <input id='upload-image-input' multiple accept='image/*' type='file' placeholder='file' onChange={(e) => uploadFiles(e.target.files)} />
           </Form.Field>
           <Form.Button primary>Submit</Form.Button>
         </Form>
