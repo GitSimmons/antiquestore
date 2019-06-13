@@ -4,7 +4,7 @@ import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import CartItem from './CartItem'
 import User from './User'
-
+import CheckoutForm from './CheckoutForm'
 const LOCAL_STATE_QUERY = gql`
  query {
    cartOpen @client
@@ -20,6 +20,9 @@ const Cart = () => {
   return (
     <User>
       {({ currentUser }) => {
+        if (!currentUser) {
+          return <div>loading...</div>
+        }
         return (
           <Query query={LOCAL_STATE_QUERY}>
             {({ data: { cartOpen } }) =>
@@ -61,9 +64,12 @@ const Cart = () => {
                           return accumulator + currentValue.item.price
                         }, 0))}
                     </Menu.Item>
-                    <Menu.Item as='a'>
-                      <Icon name='shopping cart' />Checkout
-                    </Menu.Item>
+                    {currentUser.cart.length > 0 && <CheckoutForm>
+                      <Menu.Item as='a'>
+                        <Icon name='shopping cart' />
+                      Checkout
+                      </Menu.Item>
+                    </CheckoutForm>}
                   </Sidebar>
                 }</Mutation>
             }
