@@ -38,7 +38,7 @@ mutation UPDATE_ITEM_MUTATION(
 }
 `
 
-const UpdateItem = (props) => {
+const UpdateItem = ({ close, ...props }) => {
   const [updateLoading, setLoading] = useState(false)
   // const [image, setImage] = useState()
   const [updates, setUpdates] = useState()
@@ -64,6 +64,7 @@ const UpdateItem = (props) => {
       ...updates
     } })
     setLoading(false)
+    close && close()
     Router.push('/')
   }
   return (
