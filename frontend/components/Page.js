@@ -30,6 +30,7 @@ const Page = props =>
         rel='stylesheet'
         href='//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css'
       />
+      <script src='https://js.stripe.com/v3/' />
     </Head>
     <ThemeProvider theme={theme}>
       <StyledPage>
@@ -44,3 +45,4 @@ const Page = props =>
   </>
 
 export default Page
+export { theme }
