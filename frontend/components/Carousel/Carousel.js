@@ -17,7 +17,7 @@ const Carousel = ({ initialStep, images }) => {
   }
 
   const PaddingBottom = styled.div`
-    padding-bottom: 550px;
+    padding-bottom: 650px;
   `
   const CarouselContrastTriangleThing = styled.div`
     left: -45vw;
@@ -60,9 +60,9 @@ const Carousel = ({ initialStep, images }) => {
           </Header.Subheader>
           <Button color='blue'>View Collection</Button>
         </Header>
-        <Icon color='grey' floated='left' name='chevron left' size='big' onClick={navigation.previous} />
+        {/* <Icon color='grey' floated='left' name='chevron left' size='big' onClick={navigation.previous} />
         <Icon color='grey' floated='right' name='chevron right' size='big' onClick={navigation.next} />
-        {images.map((image, index) => <Icon color={step === index ? 'black' : 'grey'} key={index} name='circle' onClick={() => navigation.jump(index)} />)}
+        {images.map((image, index) => <Icon color={step === index ? 'black' : 'grey'} key={index} name='circle' onClick={() => navigation.jump(index)} />)} */}
       </ContentContainer>
     </PaddingBottom>
   )
