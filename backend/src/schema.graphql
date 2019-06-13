@@ -79,6 +79,7 @@ type Mutation {
   modifyPermissions (id: ID!, permissions: [Permission]!) : User
   addToCart (id: ID!) : CartItem 
   removeFromCart(id: ID!) : CartItem
+  createOrder(token: String!): Order!
 }
 
 type Query {
@@ -88,4 +89,5 @@ type Query {
   users: [User]!
   user(where: UserWhereUniqueInput!): User
   currentUser: User
+  order(id: ID!): Order!
 }

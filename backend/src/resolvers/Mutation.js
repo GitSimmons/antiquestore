@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { randomBytes } = require('crypto')
 const hasPermissions = require('../utils')
+const stripe = require('../stripe')
 
 const setCookie = (id, ctx) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET)
@@ -20,13 +21,14 @@ const getToken = ({ id, email }) => {
 }
 
 const Mutation = {
-  async createItem (parent, args, ctx, info) {
+  async createItem (parent, { images, ...args }, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to create an item')
     }
     return ctx.db.mutation.createItem({
       data: {
         ...args,
+        images: { set: images },
         createdBy: {
           connect: {
             id: ctx.request.userId
@@ -199,6 +201,59 @@ const Mutation = {
     return ctx.db.mutation.deleteCartItem({
       where: { id: item.id }
     }, info)
+  },
+  async createOrder (parent, args, ctx, info) {
+    const { userId } = ctx.request
+    if (!userId) {
+      throw new Error('You must be logged in to do that.')
+    }
+    const user = await ctx.db.query.user(
+      { where: { id: userId } }, `
+      { id
+        name
+        email
+        cart {
+          id
+          item {
+            title
+            description
+            price
+            image
+          }
+        }
+      }`)
+    const total = user.cart.reduce((accumulator, currentItem) => accumulator + currentItem.item.price, 0)
+    const charge = await stripe.charges.create({
+      amount: total,
+      currency: 'cad',
+      source: args.token
+    })
+    const orderItems = user.cart.map((cartItem) => {
+      const orderItem = {
+        user: { connect: { id: userId } },
+        ...cartItem.item
+      }
+      delete orderItem.id
+      return orderItem
+    })
+    console.log(orderItems)
+    const order = ctx.db.mutation.createOrder({
+      data: {
+        items: {
+          create: orderItems
+        },
+        user: {
+          connect: {
+            id: ctx.request.userId
+          }
+        },
+        charge: charge.id,
+        total: charge.amount
+      }
+    })
+    const cartItemIds = user.cart.map((cartItem) => cartItem.id)
+    await ctx.db.mutation.deleteManyCartItems({ where: { id_in: cartItemIds } })
+    return order
   }
 }
 

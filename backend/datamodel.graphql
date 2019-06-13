@@ -34,7 +34,7 @@ type Item {
   title: String!
   description: String!
   image: String
-  images: [String!]  @scalarList(strategy: RELATION)
+  images: [String]! @scalarList(strategy: RELATION)
   largeImages: [String!]  @scalarList(strategy: RELATION)
   price: Int
   createdAt: DateTime! @createdAt
@@ -48,4 +48,21 @@ type Item {
   soldTo: String
   soldFor: Int
   createdBy: User! @relation(link : TABLE)
+}
+
+type OrderItem {
+  id: ID! @id
+  title: String!
+  description: String
+  image: String
+  price: Int
+  user: User! @relation(link : TABLE)
+}
+
+type Order {
+  id: ID! @id
+  items: [OrderItem!]!
+  total: Int!
+  user: User! @relation(link : TABLE)
+  charge: String!
 }
