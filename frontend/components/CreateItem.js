@@ -36,7 +36,6 @@ const CreateItem = () => {
     const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
     const data = new FormData()
     data.append('file', file)
-    // TODO: Create more appropriate upload preset
     data.append('upload_preset', 'auntsadies')
     data.append('tags', 'browser_upload')
     const res = await fetch(url,
