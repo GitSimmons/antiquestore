@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { Query, Mutation } from 'react-apollo'
 import { useState } from 'react'
-import { Form, Label, Input } from 'semantic-ui-react'
+import { Dimmer, Input, Form, Label, Loader } from 'semantic-ui-react'
 import Router from 'next/router'
 
 const SINGLE_ITEM_QUERY = gql`
@@ -70,7 +70,25 @@ const UpdateItem = ({ close, ...props }) => {
   return (
     <Query query={SINGLE_ITEM_QUERY} variables={{ id: props.id }}>
       {({ data, error, loading }) => {
-        if (loading) { return <div>Loading...</div> }
+        if (loading) {
+          return (
+            <Form>
+              <Dimmer inverted active>
+                <Loader />
+              </Dimmer>
+              <Form.Input required label='Title' placeholder='Title' defaultValue='' />
+              <Form.TextArea required label='Description' placeholder='A brief description of the object' type='text' />
+              <Form.Field>
+                <Input labelPosition='right' type='text' placeholder='Amount (in CAD)' defaultValue='0'>
+                  <Label basic>$</Label>
+                  <input />
+                  <Label>.00</Label>
+                </Input>
+              </Form.Field>
+              <Form.Button primary>Update Item</Form.Button>
+            </Form>
+          )
+        }
         if (error) { return <div>Error!:{error}</div> }
         return (
           <Mutation mutation={UPDATE_ITEM_MUTATION} refetchQueries={['ALL_ITEMS_QUERY', 'SINGLE_ITEM_QUERY']}>
