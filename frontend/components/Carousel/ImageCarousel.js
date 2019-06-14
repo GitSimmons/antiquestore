@@ -37,14 +37,18 @@ const ImageCarousel = ({ initialIndex = 0, onSelect = () => {}, children }) => {
     setCurrentImage(index)
     onSelect(child, index)
   }
-
+  if (!children || !children[currentImage]) {
+    return (
+      <div>Something went wrong...</div>
+    )
+  }
   return (
     <div style={{ backgroundColor: 'ivory', minWidth: '500px', display: 'flex', flexDirection: 'column', placeItems: 'center center', padding: '1rem' }}>
-      <div style={{ display: 'flex', placeItems: 'center center', height: '750px' }} >
+      <div style={{ display: 'block', placeItems: 'center center', height: '750px' }} >
         <Transition in={inProp} timeout={0}>
           {state =>
             <FadingDiv className={state} >
-              <img width='500px' src={children[currentImage].props.src} />
+              <img width='500px' style={{ maxHeight: '650px', objectFit: 'cover' }} src={children[currentImage].props.src} />
               <div style={{ width: '100%', fontFamily: 'sans-serif', marginTop: '1rem' }}>
                 <a href='https://creativecommons.org/publicdomain/zero/1.0/'><span >
                   <Icon size='large' name='creative commons' />Public Domain </span></a>
@@ -56,7 +60,7 @@ const ImageCarousel = ({ initialIndex = 0, onSelect = () => {}, children }) => {
       <Divider />
       <div style={{ display: 'flex', wrap: 'no-wrap', width: '100%', justifyContent: 'center' }}>
         {children.map((child, index) =>
-          <StyledImageThumbnail key={index} index={index} height='75px' onClick={() => handleClick(child, index)}>
+          <StyledImageThumbnail key={index} index={index} onClick={() => handleClick(child, index)}>
             {child}
           </StyledImageThumbnail>
         )}
