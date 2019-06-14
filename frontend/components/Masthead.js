@@ -28,6 +28,7 @@ const Masthead = () => {
   display: flex;
   position: absolute;
   left: 0;
+  top: 0;
   padding-left: 2rem;
   align-items: center;
   min-height: 650px;
