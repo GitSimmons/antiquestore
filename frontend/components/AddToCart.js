@@ -19,7 +19,7 @@ const ADD_TO_CART_MUTATION = gql`
 }
 `
 
-const AddToCart = ({ id, item }) => {
+const AddToCart = ({ id, item, children }) => {
   const update = (store, payload) => {
     const data = store.readQuery({ query: CURRENT_USER_QUERY })
     data.currentUser.cart.push(payload.data.addToCart)
@@ -50,7 +50,9 @@ const AddToCart = ({ id, item }) => {
       // refetchQueries={['CURRENT_USER_QUERY']}
     >
       {addToCartMutation =>
-        <Button circular icon='cart' floated='right' onClick={addToCartMutation} />
+        <div onClick={addToCartMutation}>
+          {children}
+        </div>
       }
     </Mutation>
 

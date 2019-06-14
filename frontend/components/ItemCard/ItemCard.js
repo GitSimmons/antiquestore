@@ -9,11 +9,6 @@ import styled from 'styled-components'
 const StyledImage = styled(Image)`
   height: 200px !important;
   object-fit: cover;
-  
-  @media (max-width: 767px) {
-    height: auto!important;
-    object-fit: fill;
-  }
 `
 const ItemCard = ({ item, refetch }) => {
   const routeToItemPage = (id) => {
@@ -34,17 +29,20 @@ const ItemCard = ({ item, refetch }) => {
       </Card>)
   }
   return (
-    <Card style={{ maxWidth: '90vw' }}key={item.id}>
+    <Card style={{ maxWidth: '90vw' }} key={item.id}>
       {item.image
         ? <StyledImage fluid src={item.image} onClick={(e) => routeToItemPage(item.id)} />
         : <StyledImage src='/static/image.png' />}
       <Card.Content>
         <Card.Header onClick={(e) => routeToItemPage(item.id)}>{item.title}</Card.Header>
         {item.price > 0 && <Card.Meta> <span>{convertToCurrency(item.price)}</span></Card.Meta>}
-        {item.description && <Card.Description>{item.description}</Card.Description>}
+        {item.description && <Card.Description>{
+          item.description.length > 200 ? item.description.substr(0, 120) + '...' : item.description}</Card.Description>}
       </Card.Content>
       <Card.Content extra>
-        <AddToCart id={item.id} item={item} />
+        <AddToCart id={item.id} item={item}>
+          <Button circular icon='cart' floated='right' />
+        </AddToCart>
         <DeleteItemButton item={item} refetch={refetch} />
         <UpdateItemButton item={item} />
       </Card.Content>
