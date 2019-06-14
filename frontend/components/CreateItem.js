@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo'
 import { useState } from 'react'
 import { Form, Label, Input, Image } from 'semantic-ui-react'
 import Router from 'next/router'
+import { ImageCarousel } from './Carousel/ImageCarousel'
 
 const CREATE_ITEM_MUTATION = gql`
 mutation CreateItem(
@@ -34,6 +35,7 @@ const CreateItem = () => {
   const [mainImage, setMainImage] = useState('')
 
   const uploadFile = async (file) => {
+    setLoading(true)
     const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
     const data = new FormData()
     data.append('file', file)
@@ -46,6 +48,7 @@ const CreateItem = () => {
       })
     const { secure_url } = await res.json()
     setImages((prevImages) => [...prevImages, secure_url])
+    setLoading(false)
   }
 
   const uploadFiles = async (files) => {
@@ -75,8 +78,12 @@ const CreateItem = () => {
             </Input>
           </Form.Field>
           <Form.Field>
-            {mainImage && <Image src={mainImage} key={mainImage} size='medium' centered />}
-            {images && images.map(image => <Image src={image} key={image} size='medium' centered onClick={() => setMainImage(image)} />)}
+            {images.length > 0 &&
+            <ImageCarousel onSelect={(child, index) => setMainImage(child.props.src)}>
+              {images.map(image =>
+                <img height='75px' src={image} key={image} />
+              )}
+            </ImageCarousel>}
             <input id='upload-image-input' multiple accept='image/*' type='file' placeholder='file' onChange={(e) => uploadFiles(e.target.files).then(() => setMainImage(images[0]))} />
           </Form.Field>
           <Form.Button primary>Submit</Form.Button>
