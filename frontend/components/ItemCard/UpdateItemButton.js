@@ -21,7 +21,7 @@ const UpdateItemButton = ({ item }) => {
     >
       <Modal.Header>{item.title}</Modal.Header>
       <Modal.Content image>
-        <Image wrapped size='medium' src={item.image} />
+        <Image wrapped size='medium' src={item.image} style={{ paddingRight: '1.5rem' }} />
         <UpdateItem id={item.id} close={close} />
       </Modal.Content>
     </Modal>)
