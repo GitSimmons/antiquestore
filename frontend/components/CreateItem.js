@@ -31,6 +31,7 @@ const CreateItem = () => {
   const [description, setDescription] = useState()
   const [loading, setLoading] = useState(false)
   const [images, setImages] = useState([])
+  const [mainImage, setMainImage] = useState('')
 
   const uploadFile = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/acloudforben/image/upload'
@@ -49,14 +50,14 @@ const CreateItem = () => {
 
   const uploadFiles = async (files) => {
     for (var i = 0; i < files.length; i++) {
-      uploadFile(files[i]) // call the function to upload the file
+      await uploadFile(files[i]) // call the function to upload the file
     }
   }
 
   const handleSubmit = async (createItem) => {
     setLoading(true)
     await createItem({ variables: {
-      title, price, description, images, image: images[0]
+      title, price, description, images, image: mainImage
     } })
     Router.push('/')
   }
@@ -74,8 +75,9 @@ const CreateItem = () => {
             </Input>
           </Form.Field>
           <Form.Field>
-            {images && images.map(image => <Image src={image} key={image} size='medium' centered />)}
-            <input id='upload-image-input' multiple accept='image/*' type='file' placeholder='file' onChange={(e) => uploadFiles(e.target.files)} />
+            {mainImage && <Image src={mainImage} key={mainImage} size='medium' centered />}
+            {images && images.map(image => <Image src={image} key={image} size='medium' centered onClick={() => setMainImage(image)} />)}
+            <input id='upload-image-input' multiple accept='image/*' type='file' placeholder='file' onChange={(e) => uploadFiles(e.target.files).then(() => setMainImage(images[0]))} />
           </Form.Field>
           <Form.Button primary>Submit</Form.Button>
         </Form>
