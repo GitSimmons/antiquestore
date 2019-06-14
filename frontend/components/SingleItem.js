@@ -1,11 +1,10 @@
 import gql from 'graphql-tag'
 import { Breadcrumb, Button, Container, Divider, Grid, Header, Icon, Image, Segment } from 'semantic-ui-react'
 import { useQuery } from 'react-apollo-hooks'
-import { useState } from 'react'
-import styled from 'styled-components'
-import { Transition } from 'react-transition-group'
 import AddToCart from './AddToCart'
 import { convertToCurrency } from '../lib/utils'
+import { ImageCarousel } from './Carousel/ImageCarousel'
+
 const SINGLE_ITEM_QUERY = gql`
   query SingleItem($id: ID!) {
     item(where:{id: $id}) {
@@ -20,44 +19,11 @@ const SINGLE_ITEM_QUERY = gql`
 `
 
 const SingleItem = props => {
-  const [currentImage, setCurrentImage] = useState('0')
-  const [inProp, setInProp] = useState(true)
-
-  const StyledImageThumbnail = styled(Image)`
-  transition: opacity 0.3s ease;
-  opacity: ${props => props.index.toString() === currentImage.toString() ? 1 : 0.6};
-  :hover {
-    opacity: 1;
-  }
-  `
-  const FadingDiv = styled.div`
-  transition: 1s;
-  /* Hidden init state */
-  opacity: 0;
-  &.enter,
-  &.entered {
-    /* Animate in state */
-    opacity: 1;
-  };
-  &.exited {
-    opacity: 0.5;
-  };
-  &.exiting {
-    /* Animate out state */
-    opacity: 0;
-  };
-`
-
   const { data, loading, error } = useQuery(SINGLE_ITEM_QUERY, { variables: { id: props.id } })
   if (loading) return null
   if (error) return `Error!: ${error}`
 
-  const handleClick = async (index) => {
-    setInProp(false)
-    await setTimeout(() => setInProp(true), 0)
-    setCurrentImage(index)
-  }
-
+  const mainImageIndex = data.item.images.indexOf(data.item.image) || 0
   return (
     <Container style={{ paddingBottom: '3rem' }}>
       <Breadcrumb style={{ padding: '1rem 0 1rem 0' }}>
@@ -69,7 +35,7 @@ const SingleItem = props => {
       </Breadcrumb>
 
       <Grid columns={2} stackable reversed='tablet mobile' doubling >
-        <Grid.Column doubling>
+        <Grid.Column>
           <Segment>
             <Header as='h1'>{data.item.title}
               <span style={{ color: 'grey', fontSize: '1rem', fontFamily: 'sans-serif', fontWeight: '400' }}>1828–38</span>
@@ -113,24 +79,9 @@ const SingleItem = props => {
           </Segment>
         </Grid.Column>
         <Grid.Column>
-          <div style={{ backgroundColor: 'ivory', minWidth: '500px', display: 'flex', flexDirection: 'column', placeItems: 'center center', padding: '1rem' }}>
-            <div style={{ display: 'flex', placeItems: 'center center', height: '750px' }} >
-              <Transition in={inProp} timeout={0}>
-                {state =>
-                  <FadingDiv className={state} >
-                    <Image src={data.item.images[currentImage]} />
-                    <div style={{ width: '100%', fontFamily: 'sans-serif', marginTop: '1rem' }}>
-                      <a href='https://creativecommons.org/publicdomain/zero/1.0/'><span > <Icon size='large' name='creative commons' />Public Domain </span></a>
-                    </div>
-                  </FadingDiv>
-                }
-              </Transition>
-            </div>
-            <Divider />
-            <Image.Group style={{ display: 'flex', wrap: 'no-wrap' }}>
-              {data.item.images.map((image, index) => <StyledImageThumbnail key={index} index={index} height='75px' src={image} onClick={() => handleClick(index)} />)}
-            </Image.Group>
-          </div>
+          <ImageCarousel initialIndex={mainImageIndex}>
+            {data.item.images.map((img, index) => <img height='75px' key={index} src={img} />)}
+          </ImageCarousel>
         </Grid.Column>
       </Grid>
     </Container>
