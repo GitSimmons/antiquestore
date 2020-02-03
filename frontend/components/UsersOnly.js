@@ -1,24 +1,20 @@
-import User from './User'
-import Login from './Login'
+import User from "./User";
+import Login from "./Login";
 const UsersOnly = ({ children }) => {
   return (
     <User>
-      {({ currentUser }) => {
+      {({ data: { currentUser } }) => {
         if (!currentUser) {
           return (
             <>
               <Login />
             </>
-          )
+          );
         }
-        return (
-          <>
-            {children}
-           </>
-        )
+        return <>{children}</>;
       }}
     </User>
-  )
-}
+  );
+};
 
-export default UsersOnly
+export default UsersOnly;

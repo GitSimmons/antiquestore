@@ -59,14 +59,16 @@ const CreateItem = () => {
 
   const handleSubmit = async (createItem) => {
     setLoading(true)
-    await createItem({ variables: {
-      title, price, description, images, image: mainImage
-    } })
+    await createItem({
+      variables: {
+        title, price, description, images, image: mainImage
+      }
+    })
     Router.push('/')
   }
   return (
     <Mutation mutation={CREATE_ITEM_MUTATION} refetchQueries={['ALL_ITEMS_QUERY', 'PAGINATION_QUERY']}>
-      { createItem =>
+      {createItem =>
         <Form onSubmit={() => handleSubmit(createItem)} loading={loading}>
           <Form.Input required label='Title' placeholder='Title' onChange={(e) => setTitle(e.target.value)} />
           <Form.TextArea required label='Description' placeholder='A brief description of the object' onChange={(e) => setDescription(e.target.value)} type='text' />
@@ -79,11 +81,11 @@ const CreateItem = () => {
           </Form.Field>
           <Form.Field>
             {images.length > 0 &&
-            <ImageCarousel onSelect={(child, index) => setMainImage(child.props.src)}>
-              {images.map(image =>
-                <img height='75px' src={image} key={image} />
-              )}
-            </ImageCarousel>}
+              <ImageCarousel onSelect={(child, index) => setMainImage(child.props.src)}>
+                {images.map(image =>
+                  <img height='75px' src={image} key={image} />
+                )}
+              </ImageCarousel>}
             <input id='upload-image-input' multiple accept='image/*' type='file' placeholder='file' onChange={(e) => uploadFiles(e.target.files).then(() => setMainImage(images[0]))} />
           </Form.Field>
           <Form.Button primary>Submit</Form.Button>

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Breadcrumb, Button, Container, Divider, Grid, Header, Icon, Image, Segment } from 'semantic-ui-react'
+import { Breadcrumb, Button, Container, Divider, Grid, Header, Icon, Segment } from 'semantic-ui-react'
 import { useQuery } from 'react-apollo-hooks'
 import AddToCart from './AddToCart'
 import { convertToCurrency } from '../lib/utils'

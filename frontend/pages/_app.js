@@ -6,7 +6,7 @@ import Page from '../components/Page'
 import withApollo from '../lib/withApollo'
 
 class myApp extends App {
-  static async getInitialProps ({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
@@ -15,18 +15,16 @@ class myApp extends App {
     // this exposes the query to the user
     return { pageProps }
   }
-  render () {
+  render() {
     const { Component, apolloClient, pageProps } = this.props
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
           <ApolloHooksProvider client={apolloClient}>
-
             <Page>
               <Component {...pageProps} />
             </Page>
           </ApolloHooksProvider>
-
         </ApolloProvider>
       </Container>
     )

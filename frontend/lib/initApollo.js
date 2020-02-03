@@ -1,26 +1,26 @@
-import ApolloClient from 'apollo-client'
-import { LOCAL_STATE_QUERY } from '../components/Cart'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
-import { setContext } from 'apollo-link-context'
-import fetch from 'isomorphic-unfetch'
+import ApolloClient from "apollo-client";
+import { LOCAL_STATE_QUERY } from "../components/Cart";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { setContext } from "apollo-link-context";
+import fetch from "isomorphic-unfetch";
 
-let apolloClient = null
+let apolloClient = null;
 
-const endpoint = `http://localhost:4445`
+const endpoint = `http://localhost:4445`;
 
 const link = new HttpLink({
-  uri: process.env.NODE_ENV === 'development' ? endpoint : endpoint, // Server URL (must be absolute)
-  credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+  uri: process.env.NODE_ENV === "development" ? endpoint : endpoint, // Server URL (must be absolute)
+  credentials: "include", // Additional fetch() options like `credentials` or `headers`
   // Use fetch() polyfill on the server
   fetch: !process.browser && fetch
-})
-const cache = new InMemoryCache()
+});
+const cache = new InMemoryCache();
 
-function create (initialState) {
+function create(initialState) {
   // const middlewareLink = setContext(() => ({
-  //   headers
-  // }))
+  //   headers: initalState.headers
+  // }));
 
   return new ApolloClient({
     connectToDevTools: process.browser,
@@ -30,33 +30,37 @@ function create (initialState) {
     resolvers: {
       Mutation: {
         toggleCart: async (parent, args, { cache }, info) => {
-          const { cartOpen } = await cache.readQuery({ query: LOCAL_STATE_QUERY })
-          await cache.writeData({ data: {
-            cartOpen: !cartOpen
-          } })
-          return !cartOpen
+          const { cartOpen } = await cache.readQuery({
+            query: LOCAL_STATE_QUERY
+          });
+          await cache.writeData({
+            data: {
+              cartOpen: !cartOpen
+            }
+          });
+          return !cartOpen;
         }
       }
     }
-  })
+  });
 }
 cache.writeData({
   data: {
     cartOpen: false
   }
-})
+});
 
-export default function initApollo (initialState) {
+export default function initApollo(initialState) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!process.browser) {
-    return create(initialState)
+    return create(initialState);
   }
 
   // Reuse client on the client-side
   if (!apolloClient) {
-    apolloClient = create(initialState)
+    apolloClient = create(initialState);
   }
 
-  return apolloClient
+  return apolloClient;
 }

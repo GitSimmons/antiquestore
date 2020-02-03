@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -15,10 +15,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: #eee;
   }
   p {
-    font-family: 'Helvetica Neue', Lato,Arial,Helvetica,sans-serif;, sans-serif;
+    font-family: 'Helvetica Neue', Lato,Arial,Helvetica,sans-serif;
     line-height: 1.5
   }
 
-`
+`;
 
-export default GlobalStyle
+export default GlobalStyle;

@@ -1,48 +1,47 @@
-import styled, { ThemeProvider } from 'styled-components'
-import GlobalStyle from './styles/GlobalStyle'
-import Meta from './Meta'
-import Header from './Header'
-import Footer from './Footer'
-import Head from 'next/head'
+import styled, { ThemeProvider } from "styled-components";
+import GlobalStyle from "./styles/GlobalStyle";
+import Meta from "./Meta";
+import Header from "./Header";
+import Footer from "./Footer";
+import Head from "next/head";
 
 const theme = {
-  blue: '#34b8e4',
-  maxWidth: '1280px'
-}
+  blue: "#34b8e4",
+  maxWidth: "1280px"
+};
 
 const StyledPage = styled.div`
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-`
+`;
 const Inner = styled.div`
   margin: auto;
   max-width: ${({ theme }) => theme.maxWidth};
   flex: 1;
   min-width: 50%;
-`
+`;
 
-const Page = props =>
+const Page = props => (
   <>
     <GlobalStyle />
     <Head>
       <link
-        rel='stylesheet'
-        href='//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css'
+        rel="stylesheet"
+        href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
       />
-      <script src='https://js.stripe.com/v3/' />
+      <script src="https://js.stripe.com/v3/" />
     </Head>
     <ThemeProvider theme={theme}>
       <StyledPage>
         <Meta />
         <Header />
-        <Inner>
-          {props.children}
-        </Inner>
+        <Inner>{props.children}</Inner>
         <Footer />
       </StyledPage>
     </ThemeProvider>
   </>
+);
 
-export default Page
-export { theme }
+export default Page;
+export { theme };

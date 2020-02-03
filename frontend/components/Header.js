@@ -1,25 +1,25 @@
-import NProgress from 'nprogress'
-import Router from 'next/router'
-import Cart from './Cart'
-import Nav from './Nav'
+import NProgress from "nprogress";
+import Router from "next/router";
+import Cart from "./Cart";
+import Nav from "./Nav";
 
 Router.onRouteChangeStart = () => {
-  NProgress.configure({ showSpinner: false })
-  NProgress.start()
-}
+  NProgress.configure({ showSpinner: false });
+  NProgress.start();
+};
 Router.onRouteChangeComplete = () => {
-  NProgress.done()
-}
+  NProgress.done();
+};
 
 Router.onRouteChangeError = () => {
-  NProgress.done()
-}
+  NProgress.done();
+};
 
 const Header = () => (
   <>
     <Cart />
     <Nav />
   </>
-)
+);
 
-export default Header
+export default Header;
