@@ -23,7 +23,6 @@ type User {
   cart: [CartItem!]!
 }
 
-
 type Item {
   id: String
   title: String
@@ -61,29 +60,32 @@ type Mutation {
     image: String
   ): Item!
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
-  deleteItem(
-    id: ID!
-  ): Item!
-  createUser (
-    name: String!
-    email: String!
-    password: String!
-  ) : User!
-  signIn (
-    email: String!
-    password: String!
-  ) : User!
+  deleteItem(id: ID!): Item!
+  createUser(name: String!, email: String!, password: String!): User!
+  signIn(email: String!, password: String!): User!
   signOut: SuccessMessage!
-  requestReset (email: String!) : SuccessMessage!
-  resetPassword (resetToken: String!, password: String!, confirmPassword: String!) : User!
-  modifyPermissions (id: ID!, permissions: [Permission]!) : User
-  addToCart (id: ID!) : CartItem 
-  removeFromCart(id: ID!) : CartItem
+  requestReset(email: String!): SuccessMessage!
+  resetPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
+  modifyPermissions(id: ID!, permissions: [Permission]!): User
+  addToCart(id: ID!): CartItem
+  removeFromCart(id: ID!): CartItem
   createOrder(token: String!): Order!
 }
 
 type Query {
-  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
+  items(
+    where: ItemWhereInput
+    orderBy: ItemOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Item]!
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
   users: [User]!
