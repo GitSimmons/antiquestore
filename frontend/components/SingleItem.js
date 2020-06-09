@@ -25,7 +25,7 @@ const SingleItem = props => {
 
   const mainImageIndex = data.item.images.indexOf(data.item.image) || 0
   return (
-    <Container style={{ paddingBottom: '3rem' }}>
+    <Container style={{ paddingBottom: '3rem', paddingTop:'5rem' }}>
       <Breadcrumb style={{ padding: '1rem 0 1rem 0' }}>
         <Breadcrumb.Section link>Culture</Breadcrumb.Section>
         <Breadcrumb.Divider />

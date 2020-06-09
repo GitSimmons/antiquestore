@@ -43,12 +43,12 @@ const ImageCarousel = ({ initialIndex = 0, onSelect = () => {}, children }) => {
     )
   }
   return (
-    <div style={{ backgroundColor: 'ivory', minWidth: '500px', display: 'flex', flexDirection: 'column', placeItems: 'center center', padding: '1rem' }}>
-      <div style={{ display: 'block', placeItems: 'center center', height: '750px' }} >
+    <div style={{ backgroundColor: 'ivory', display: 'flex', flexDirection: 'column', placeItems: 'center center', padding: '1rem' }}>
+      <div >
         <Transition in={inProp} timeout={0}>
           {state =>
             <FadingDiv className={state} >
-              <img width='500px' style={{ maxHeight: '650px', objectFit: 'cover' }} src={children[currentImage].props.src} />
+	      <img style={{ maxHeight: '50vh', maxWidth:'80vw', objectFit: 'cover' }} src={children[currentImage].props.src} />
               <div style={{ width: '100%', fontFamily: 'sans-serif', marginTop: '1rem' }}>
                 <a href='https://creativecommons.org/publicdomain/zero/1.0/'><span >
                   <Icon size='large' name='creative commons' />Public Domain </span></a>
