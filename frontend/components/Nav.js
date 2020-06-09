@@ -9,6 +9,7 @@ import Search from "./Search";
 import Cat from "./Cat";
 import styled from "styled-components";
 import Login from "./Login";
+import { hasPermission  }from '../lib/utils'
 
 
 const Nav = ({ children }) => {
@@ -28,12 +29,13 @@ const Nav = ({ children }) => {
             {({ data: { currentUser } }) => {
               return (
                 <>
-                  <Menu.Item
-                    disabled={!currentUser}
+		  {
+		  currentUser && hasPermission(currentUser.permissions, 'ITEMCREATE') && <Menu.Item
                     a="/sell"
                     icon="usd"
                     onClick={handleItemClick}
-                  ></Menu.Item>
+		    / >
+		  }
                   <Mutation mutation={TOGGLE_CART_MUTATION}>
                     {toggleCartMutation => (
                       <Menu.Item
