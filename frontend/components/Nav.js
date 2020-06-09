@@ -10,16 +10,12 @@ import Cat from "./Cat";
 import styled from "styled-components";
 import Login from "./Login";
 
-const StyledNav = styled.div`
-  padding-bottom: 5rem;
-`;
 
 const Nav = ({ children }) => {
   const handleItemClick = (e, { a }) => {
     a && Router.push(a);
   };
   return (
-    <StyledNav>
       <Menu borderless fixed="top">
         <Menu.Item>
           <Cat onClick={() => Router.push("/")} />
@@ -75,7 +71,6 @@ const Nav = ({ children }) => {
           </User>
         </Menu.Menu>
       </Menu>
-    </StyledNav>
   );
 };
 

@@ -16,7 +16,8 @@ const Masthead = () => {
     left: -45vw;
     top: 0;
     position: absolute;
-    height: 100%;
+    height: 650px;
+    max-height: 100vh;
     min-width: 80%;
     background-color: ${mastheadObject.backgroundColor || "#bab9ff"};
     transform: skewX(-25deg);
@@ -24,12 +25,10 @@ const Masthead = () => {
   `;
   const ImageContainer = styled.div`
     display: flex;
-    position: absolute;
-    left: 0;
-    top: 0;
     padding-left: 2rem;
     align-items: center;
-    min-height: 650px;
+    height: 650px;
+    max-height: 100vh;
     width: 100vw;
     background-image: url(${mastheadObject.src});
     background-attachment: fixed;
@@ -37,7 +36,6 @@ const Masthead = () => {
   `;
 
   return (
-    <div style={{ height: "650px" }}>
       <ImageContainer>
         <CarouselContrastTriangleThing />
         <div>
@@ -52,7 +50,6 @@ const Masthead = () => {
           </Header>
         </div>
       </ImageContainer>
-    </div>
   );
 };
 

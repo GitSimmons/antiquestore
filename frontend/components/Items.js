@@ -47,7 +47,7 @@ const Items = ({ page: pageProp }) => {
     <User>
       {({ data: { currentUser } }) => (
         <div>
-          <CardCarousel visibleItems={4} padding="0px 8px 0px 8px">
+          <CardCarousel padding="0px 8px 0px 8px">
             {data.items.map(item => (
               <ItemCard
                 permissions={currentUser ? currentUser.permissions : ""}

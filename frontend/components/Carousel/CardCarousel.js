@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 
 const Wrapper = styled.div`
 display: flex;
-max-width: 90vw;
+max-width: 100vw;
 overflow-x: auto;
 &::-webkit-scrollbar {
   -webkit-appearance: none !important;
@@ -58,6 +58,20 @@ const CardCarousel = ({ title, children, visibleItems = 4, padding }) => {
     },
     jump: (a) => deltaPosition(a)
   }
+  let width
+  try {
+
+  if (window) {
+    width = window.innerWidth;
+    if (width <= 450) {
+      visibleItems = 2
+    } else if (width <=900) {
+      visibleItems = 3
+    }
+  }
+  } catch (e) {
+    
+  }
 
   const CarouselSlot = styled.div`
   display: flex;
@@ -70,11 +84,8 @@ const CardCarousel = ({ title, children, visibleItems = 4, padding }) => {
     position: absolute !important;
     top: 50% !important;
     display: block !important;
-    transform: translate(-25%,-50%);
     z-index: 1 !important;
-    @media (max-width: 650px) {
-      display: none !important;
-    }
+    transform: translateY(-100%);
     `
   const StyledIcon = styled(Icon)`
     box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 1px !important;
@@ -103,10 +114,10 @@ const CardCarousel = ({ title, children, visibleItems = 4, padding }) => {
       </Wrapper>
 
       {(numItems - visibleItems > 0) && <>
-        <CarouselNavButton disabled={sliding} style={{ left: '0px' }} onClick={() => navigation.previous()}>
+        <CarouselNavButton disabled={sliding} style={{ left: '0px'}} onClick={() => navigation.previous()}>
           <StyledIcon circular color='blue' size='large' name='chevron left' aria-label='previous' />
         </CarouselNavButton>
-        <CarouselNavButton disabled={sliding} style={{ right: '0px', transform: 'translate(25%, -50%)' }} onClick={() => navigation.next()}>
+        <CarouselNavButton disabled={sliding} style={{ right: '0px'}} onClick={() => navigation.next()}>
           <StyledIcon circular color='blue' size='large' name='chevron right' aria-label='next' />
         </CarouselNavButton>
       </>
