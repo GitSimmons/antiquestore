@@ -2,8 +2,8 @@ import { Button, Icon, Header } from "semantic-ui-react";
 import styled from "styled-components";
 
 const mastheadObject = {
-  title: `Chandeliers`,
-  description: `Looking for something fancier than an edison bulb, but less fancy than recessed lighting?`,
+  title: `Lighting`, // Keep this short
+  description: `Looking for something fancier than an edison bulb, but cheaper than renovating for recessed lighting?`,
   credit: `Benjamin Reisner @ Unpslash`,
   a: "https://unsplash.com/photos/jEfbYpU0IMY",
   src: `https://res.cloudinary.com/acloudforben/image/upload/c_scale,f_auto,w_1980,q_80/v1559858462/auntsadies/chandelier`,
