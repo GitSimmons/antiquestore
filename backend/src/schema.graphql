@@ -42,7 +42,13 @@ type Item {
   createdBy: User!
 }
 
+type Collection {
+  id: String
+  items: [Item]
+  name: String 
+}
 type Mutation {
+  # Item Mutations
   createItem(
     title: String!
     description: String!
@@ -61,6 +67,14 @@ type Mutation {
   ): Item!
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   deleteItem(id: ID!): Item!
+  # Collection Mutations
+  createCollection(
+    name: String!
+    items: [Item!]!
+  ): Collection!
+  updateCollection(data: CollectionUpdateInput!, where: CollectionWhereUniqueInput!): Item
+  deleteCollectin(id: ID!): Collection!
+  # User Mutations
   createUser(name: String!, email: String!, password: String!): User!
   signIn(email: String!, password: String!): User!
   signOut: SuccessMessage!
@@ -71,6 +85,7 @@ type Mutation {
     confirmPassword: String!
   ): User!
   modifyPermissions(id: ID!, permissions: [Permission]!): User
+  # Cart Mutations
   addToCart(id: ID!): CartItem
   removeFromCart(id: ID!): CartItem
   createOrder(token: String!): Order!
@@ -86,6 +101,7 @@ type Query {
     first: Int
     last: Int
   ): [Item]!
+  collections: [Collection]!
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
   users: [User]!

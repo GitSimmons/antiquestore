@@ -66,3 +66,9 @@ type Order {
   user: User! @relation(link: TABLE)
   charge: String!
 }
+
+type Collection {
+  id: ID! @id
+  items: [Item!]!
+  name: String!
+}

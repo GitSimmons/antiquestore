@@ -2,6 +2,10 @@ type AggregateCartItem {
   count: Int!
 }
 
+type AggregateCollection {
+  count: Int!
+}
+
 type AggregateItem {
   count: Int!
 }
@@ -237,6 +241,109 @@ input CartItemWhereUniqueInput {
   id: ID
 }
 
+type Collection {
+  id: ID!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item!]
+  name: String!
+}
+
+type CollectionConnection {
+  pageInfo: PageInfo!
+  edges: [CollectionEdge]!
+  aggregate: AggregateCollection!
+}
+
+input CollectionCreateInput {
+  id: ID
+  items: ItemCreateManyInput
+  name: String!
+}
+
+type CollectionEdge {
+  node: Collection!
+  cursor: String!
+}
+
+enum CollectionOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type CollectionPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type CollectionSubscriptionPayload {
+  mutation: MutationType!
+  node: Collection
+  updatedFields: [String!]
+  previousValues: CollectionPreviousValues
+}
+
+input CollectionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CollectionWhereInput
+  AND: [CollectionSubscriptionWhereInput!]
+  OR: [CollectionSubscriptionWhereInput!]
+  NOT: [CollectionSubscriptionWhereInput!]
+}
+
+input CollectionUpdateInput {
+  items: ItemUpdateManyInput
+  name: String
+}
+
+input CollectionUpdateManyMutationInput {
+  name: String
+}
+
+input CollectionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  items_every: ItemWhereInput
+  items_some: ItemWhereInput
+  items_none: ItemWhereInput
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CollectionWhereInput!]
+  OR: [CollectionWhereInput!]
+  NOT: [CollectionWhereInput!]
+}
+
+input CollectionWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 type Item {
@@ -291,6 +398,11 @@ input ItemCreateInput {
 
 input ItemCreatelargeImagesInput {
   set: [String!]
+}
+
+input ItemCreateManyInput {
+  create: [ItemCreateInput!]
+  connect: [ItemWhereUniqueInput!]
 }
 
 input ItemCreateOneInput {
@@ -356,6 +468,162 @@ type ItemPreviousValues {
   soldFor: Int
 }
 
+input ItemScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  price: Int
+  price_not: Int
+  price_in: [Int!]
+  price_not_in: [Int!]
+  price_lt: Int
+  price_lte: Int
+  price_gt: Int
+  price_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  cost: Int
+  cost_not: Int
+  cost_in: [Int!]
+  cost_not_in: [Int!]
+  cost_lt: Int
+  cost_lte: Int
+  cost_gt: Int
+  cost_gte: Int
+  consigner: String
+  consigner_not: String
+  consigner_in: [String!]
+  consigner_not_in: [String!]
+  consigner_lt: String
+  consigner_lte: String
+  consigner_gt: String
+  consigner_gte: String
+  consigner_contains: String
+  consigner_not_contains: String
+  consigner_starts_with: String
+  consigner_not_starts_with: String
+  consigner_ends_with: String
+  consigner_not_ends_with: String
+  consignmentRate: Int
+  consignmentRate_not: Int
+  consignmentRate_in: [Int!]
+  consignmentRate_not_in: [Int!]
+  consignmentRate_lt: Int
+  consignmentRate_lte: Int
+  consignmentRate_gt: Int
+  consignmentRate_gte: Int
+  consignmentStart: DateTime
+  consignmentStart_not: DateTime
+  consignmentStart_in: [DateTime!]
+  consignmentStart_not_in: [DateTime!]
+  consignmentStart_lt: DateTime
+  consignmentStart_lte: DateTime
+  consignmentStart_gt: DateTime
+  consignmentStart_gte: DateTime
+  consignmentEnd: DateTime
+  consignmentEnd_not: DateTime
+  consignmentEnd_in: [DateTime!]
+  consignmentEnd_not_in: [DateTime!]
+  consignmentEnd_lt: DateTime
+  consignmentEnd_lte: DateTime
+  consignmentEnd_gt: DateTime
+  consignmentEnd_gte: DateTime
+  sold: Boolean
+  sold_not: Boolean
+  soldTo: String
+  soldTo_not: String
+  soldTo_in: [String!]
+  soldTo_not_in: [String!]
+  soldTo_lt: String
+  soldTo_lte: String
+  soldTo_gt: String
+  soldTo_gte: String
+  soldTo_contains: String
+  soldTo_not_contains: String
+  soldTo_starts_with: String
+  soldTo_not_starts_with: String
+  soldTo_ends_with: String
+  soldTo_not_ends_with: String
+  soldFor: Int
+  soldFor_not: Int
+  soldFor_in: [Int!]
+  soldFor_not_in: [Int!]
+  soldFor_lt: Int
+  soldFor_lte: Int
+  soldFor_gt: Int
+  soldFor_gte: Int
+  AND: [ItemScalarWhereInput!]
+  OR: [ItemScalarWhereInput!]
+  NOT: [ItemScalarWhereInput!]
+}
+
 type ItemSubscriptionPayload {
   mutation: MutationType!
   node: Item
@@ -418,6 +686,35 @@ input ItemUpdatelargeImagesInput {
   set: [String!]
 }
 
+input ItemUpdateManyDataInput {
+  title: String
+  description: String
+  image: String
+  images: ItemUpdateimagesInput
+  largeImages: ItemUpdatelargeImagesInput
+  price: Int
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+}
+
+input ItemUpdateManyInput {
+  create: [ItemCreateInput!]
+  update: [ItemUpdateWithWhereUniqueNestedInput!]
+  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
+  delete: [ItemWhereUniqueInput!]
+  connect: [ItemWhereUniqueInput!]
+  set: [ItemWhereUniqueInput!]
+  disconnect: [ItemWhereUniqueInput!]
+  deleteMany: [ItemScalarWhereInput!]
+  updateMany: [ItemUpdateManyWithWhereNestedInput!]
+}
+
 input ItemUpdateManyMutationInput {
   title: String
   description: String
@@ -435,6 +732,11 @@ input ItemUpdateManyMutationInput {
   soldFor: Int
 }
 
+input ItemUpdateManyWithWhereNestedInput {
+  where: ItemScalarWhereInput!
+  data: ItemUpdateManyDataInput!
+}
+
 input ItemUpdateOneInput {
   create: ItemCreateInput
   update: ItemUpdateDataInput
@@ -444,7 +746,18 @@ input ItemUpdateOneInput {
   connect: ItemWhereUniqueInput
 }
 
+input ItemUpdateWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
+  data: ItemUpdateDataInput!
+}
+
 input ItemUpsertNestedInput {
+  update: ItemUpdateDataInput!
+  create: ItemCreateInput!
+}
+
+input ItemUpsertWithWhereUniqueNestedInput {
+  where: ItemWhereUniqueInput!
   update: ItemUpdateDataInput!
   create: ItemCreateInput!
 }
@@ -619,6 +932,12 @@ type Mutation {
   upsertCartItem(where: CartItemWhereUniqueInput!, create: CartItemCreateInput!, update: CartItemUpdateInput!): CartItem!
   deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
   deleteManyCartItems(where: CartItemWhereInput): BatchPayload!
+  createCollection(data: CollectionCreateInput!): Collection!
+  updateCollection(data: CollectionUpdateInput!, where: CollectionWhereUniqueInput!): Collection
+  updateManyCollections(data: CollectionUpdateManyMutationInput!, where: CollectionWhereInput): BatchPayload!
+  upsertCollection(where: CollectionWhereUniqueInput!, create: CollectionCreateInput!, update: CollectionUpdateInput!): Collection!
+  deleteCollection(where: CollectionWhereUniqueInput!): Collection
+  deleteManyCollections(where: CollectionWhereInput): BatchPayload!
   createItem(data: ItemCreateInput!): Item!
   updateItem(data: ItemUpdateInput!, where: ItemWhereUniqueInput!): Item
   updateManyItems(data: ItemUpdateManyMutationInput!, where: ItemWhereInput): BatchPayload!
@@ -1073,6 +1392,9 @@ type Query {
   cartItem(where: CartItemWhereUniqueInput!): CartItem
   cartItems(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartItem]!
   cartItemsConnection(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CartItemConnection!
+  collection(where: CollectionWhereUniqueInput!): Collection
+  collections(where: CollectionWhereInput, orderBy: CollectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Collection]!
+  collectionsConnection(where: CollectionWhereInput, orderBy: CollectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CollectionConnection!
   item(where: ItemWhereUniqueInput!): Item
   items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Item]!
   itemsConnection(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ItemConnection!
@@ -1090,6 +1412,7 @@ type Query {
 
 type Subscription {
   cartItem(where: CartItemSubscriptionWhereInput): CartItemSubscriptionPayload
+  collection(where: CollectionSubscriptionWhereInput): CollectionSubscriptionPayload
   item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
   order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
   orderItem(where: OrderItemSubscriptionWhereInput): OrderItemSubscriptionPayload
