@@ -16,13 +16,16 @@ const Nav = ({ children }) => {
   const handleItemClick = (e, { a }) => {
     a && Router.push(a);
   };
+  const handleSearch = (result) => {
+     Router.push(`/item?id=${result.id}`)
+  }
   return (
       <Menu borderless fixed="top">
         <Menu.Item>
           <Cat onClick={() => Router.push("/")} />
         </Menu.Item>
         <Menu.Item>
-          <Search />
+	  <Search callbackFn={handleSearch}/>
         </Menu.Item>
         <Menu.Menu position="right">
           <User>

@@ -9,9 +9,11 @@ import AddToCart from './AddToCart'
 const SEARCH_ITEMS_QUERY = gql`
 query SEARCH_ITEMS_QUERY($searchQuery: String) {
   items(where: {
-    OR: [
-      {title_contains: $searchQuery}, {description_contains: $searchQuery}
-    ]
+    title_contains: $searchQuery
+# Match the description as well with: 
+#    OR: [
+#      {title_contains: $searchQuery}, {description_contains: $searchQuery}
+#    ]
   }) {
     id
     image
@@ -21,7 +23,7 @@ query SEARCH_ITEMS_QUERY($searchQuery: String) {
   }
 }
 `
-const SearchBar = () => {
+const SearchBar = ({ callbackFn }) => {
   const [isLoading, setLoading] = useState(false)
   const [results, setResults] = useState([])
   const [value, setValue] = useState('')
@@ -33,7 +35,8 @@ const SearchBar = () => {
   }
   const handleResultSelect = (e, { result }) => {
     setValue(result.title)
-    Router.push(`/item?id=${result.id}`)
+    callbackFn(result)
+    // Router.push(`/item?id=${result.id}`)
   }
 
   const handleSearchChange = debounce(async (e, client) => {
