@@ -48,6 +48,7 @@ type Item {
   soldTo: String
   soldFor: Int
   createdBy: User! @relation(link: TABLE)
+  collections: [Collection] @relation(references: [id])
 }
 
 type OrderItem {
@@ -69,6 +70,6 @@ type Order {
 
 type Collection {
   id: ID! @id
-  items: [Item!]!
+  items: [Item] @relation(references: [id])
   name: String!
 }

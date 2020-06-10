@@ -255,7 +255,17 @@ type CollectionConnection {
 
 input CollectionCreateInput {
   id: ID
-  items: ItemCreateManyInput
+  items: ItemCreateManyWithoutCollectionsInput
+  name: String!
+}
+
+input CollectionCreateManyWithoutItemsInput {
+  create: [CollectionCreateWithoutItemsInput!]
+  connect: [CollectionWhereUniqueInput!]
+}
+
+input CollectionCreateWithoutItemsInput {
+  id: ID
   name: String!
 }
 
@@ -274,6 +284,40 @@ enum CollectionOrderByInput {
 type CollectionPreviousValues {
   id: ID!
   name: String!
+}
+
+input CollectionScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CollectionScalarWhereInput!]
+  OR: [CollectionScalarWhereInput!]
+  NOT: [CollectionScalarWhereInput!]
 }
 
 type CollectionSubscriptionPayload {
@@ -295,12 +339,48 @@ input CollectionSubscriptionWhereInput {
 }
 
 input CollectionUpdateInput {
-  items: ItemUpdateManyInput
+  items: ItemUpdateManyWithoutCollectionsInput
+  name: String
+}
+
+input CollectionUpdateManyDataInput {
   name: String
 }
 
 input CollectionUpdateManyMutationInput {
   name: String
+}
+
+input CollectionUpdateManyWithoutItemsInput {
+  create: [CollectionCreateWithoutItemsInput!]
+  delete: [CollectionWhereUniqueInput!]
+  connect: [CollectionWhereUniqueInput!]
+  set: [CollectionWhereUniqueInput!]
+  disconnect: [CollectionWhereUniqueInput!]
+  update: [CollectionUpdateWithWhereUniqueWithoutItemsInput!]
+  upsert: [CollectionUpsertWithWhereUniqueWithoutItemsInput!]
+  deleteMany: [CollectionScalarWhereInput!]
+  updateMany: [CollectionUpdateManyWithWhereNestedInput!]
+}
+
+input CollectionUpdateManyWithWhereNestedInput {
+  where: CollectionScalarWhereInput!
+  data: CollectionUpdateManyDataInput!
+}
+
+input CollectionUpdateWithoutItemsDataInput {
+  name: String
+}
+
+input CollectionUpdateWithWhereUniqueWithoutItemsInput {
+  where: CollectionWhereUniqueInput!
+  data: CollectionUpdateWithoutItemsDataInput!
+}
+
+input CollectionUpsertWithWhereUniqueWithoutItemsInput {
+  where: CollectionWhereUniqueInput!
+  update: CollectionUpdateWithoutItemsDataInput!
+  create: CollectionCreateWithoutItemsInput!
 }
 
 input CollectionWhereInput {
@@ -365,6 +445,7 @@ type Item {
   soldTo: String
   soldFor: Int
   createdBy: User!
+  collections(where: CollectionWhereInput, orderBy: CollectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Collection!]
 }
 
 type ItemConnection {
@@ -394,20 +475,40 @@ input ItemCreateInput {
   soldTo: String
   soldFor: Int
   createdBy: UserCreateOneInput!
+  collections: CollectionCreateManyWithoutItemsInput
 }
 
 input ItemCreatelargeImagesInput {
   set: [String!]
 }
 
-input ItemCreateManyInput {
-  create: [ItemCreateInput!]
+input ItemCreateManyWithoutCollectionsInput {
+  create: [ItemCreateWithoutCollectionsInput!]
   connect: [ItemWhereUniqueInput!]
 }
 
 input ItemCreateOneInput {
   create: ItemCreateInput
   connect: ItemWhereUniqueInput
+}
+
+input ItemCreateWithoutCollectionsInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String
+  images: ItemCreateimagesInput
+  largeImages: ItemCreatelargeImagesInput
+  price: Int
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+  createdBy: UserCreateOneInput!
 }
 
 type ItemEdge {
@@ -658,6 +759,7 @@ input ItemUpdateDataInput {
   soldTo: String
   soldFor: Int
   createdBy: UserUpdateOneRequiredInput
+  collections: CollectionUpdateManyWithoutItemsInput
 }
 
 input ItemUpdateimagesInput {
@@ -680,6 +782,7 @@ input ItemUpdateInput {
   soldTo: String
   soldFor: Int
   createdBy: UserUpdateOneRequiredInput
+  collections: CollectionUpdateManyWithoutItemsInput
 }
 
 input ItemUpdatelargeImagesInput {
@@ -703,18 +806,6 @@ input ItemUpdateManyDataInput {
   soldFor: Int
 }
 
-input ItemUpdateManyInput {
-  create: [ItemCreateInput!]
-  update: [ItemUpdateWithWhereUniqueNestedInput!]
-  upsert: [ItemUpsertWithWhereUniqueNestedInput!]
-  delete: [ItemWhereUniqueInput!]
-  connect: [ItemWhereUniqueInput!]
-  set: [ItemWhereUniqueInput!]
-  disconnect: [ItemWhereUniqueInput!]
-  deleteMany: [ItemScalarWhereInput!]
-  updateMany: [ItemUpdateManyWithWhereNestedInput!]
-}
-
 input ItemUpdateManyMutationInput {
   title: String
   description: String
@@ -732,6 +823,18 @@ input ItemUpdateManyMutationInput {
   soldFor: Int
 }
 
+input ItemUpdateManyWithoutCollectionsInput {
+  create: [ItemCreateWithoutCollectionsInput!]
+  delete: [ItemWhereUniqueInput!]
+  connect: [ItemWhereUniqueInput!]
+  set: [ItemWhereUniqueInput!]
+  disconnect: [ItemWhereUniqueInput!]
+  update: [ItemUpdateWithWhereUniqueWithoutCollectionsInput!]
+  upsert: [ItemUpsertWithWhereUniqueWithoutCollectionsInput!]
+  deleteMany: [ItemScalarWhereInput!]
+  updateMany: [ItemUpdateManyWithWhereNestedInput!]
+}
+
 input ItemUpdateManyWithWhereNestedInput {
   where: ItemScalarWhereInput!
   data: ItemUpdateManyDataInput!
@@ -746,9 +849,27 @@ input ItemUpdateOneInput {
   connect: ItemWhereUniqueInput
 }
 
-input ItemUpdateWithWhereUniqueNestedInput {
+input ItemUpdateWithoutCollectionsDataInput {
+  title: String
+  description: String
+  image: String
+  images: ItemUpdateimagesInput
+  largeImages: ItemUpdatelargeImagesInput
+  price: Int
+  cost: Int
+  consigner: String
+  consignmentRate: Int
+  consignmentStart: DateTime
+  consignmentEnd: DateTime
+  sold: Boolean
+  soldTo: String
+  soldFor: Int
+  createdBy: UserUpdateOneRequiredInput
+}
+
+input ItemUpdateWithWhereUniqueWithoutCollectionsInput {
   where: ItemWhereUniqueInput!
-  data: ItemUpdateDataInput!
+  data: ItemUpdateWithoutCollectionsDataInput!
 }
 
 input ItemUpsertNestedInput {
@@ -756,10 +877,10 @@ input ItemUpsertNestedInput {
   create: ItemCreateInput!
 }
 
-input ItemUpsertWithWhereUniqueNestedInput {
+input ItemUpsertWithWhereUniqueWithoutCollectionsInput {
   where: ItemWhereUniqueInput!
-  update: ItemUpdateDataInput!
-  create: ItemCreateInput!
+  update: ItemUpdateWithoutCollectionsDataInput!
+  create: ItemCreateWithoutCollectionsInput!
 }
 
 input ItemWhereInput {
@@ -914,6 +1035,9 @@ input ItemWhereInput {
   soldFor_gt: Int
   soldFor_gte: Int
   createdBy: UserWhereInput
+  collections_every: CollectionWhereInput
+  collections_some: CollectionWhereInput
+  collections_none: CollectionWhereInput
   AND: [ItemWhereInput!]
   OR: [ItemWhereInput!]
   NOT: [ItemWhereInput!]

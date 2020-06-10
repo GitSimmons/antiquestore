@@ -36,6 +36,39 @@ const Mutation = {
       }
     });
   },
+  async createCollection(_, {name, items}, ctx, info) {
+    //if (!ctx.request.userId) {
+    //  throw new Error("You must be logged in to create a collection") 
+    //}
+    let itemsToConnect = []
+    for(const itemID of items) {
+      const item = await ctx.db.query.item({where: {id: itemID}})
+      if (item) {
+	itemsToConnect.push({id: itemID})
+      }
+    }
+//    items.forEach(async id => {
+//      const item = await ctx.db.query.item({where: {id}})
+//      itemsToConnect.push(item)
+//    })
+    return ctx.db.mutation.createCollection(
+    {
+      data: {
+	name,
+	items: {
+	  connect: itemsToConnect
+	}
+      }
+    }
+    )
+  },
+  async deleteCollection(_, {id}, ctx, info) {
+    return ctx.db.mutation.deleteCollection({
+      where: {
+	id
+      }
+    })
+  },
   async deleteItem(parent, { id }, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error("You must be logged in to delete an item");

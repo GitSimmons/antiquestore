@@ -69,11 +69,11 @@ type Mutation {
   deleteItem(id: ID!): Item!
   # Collection Mutations
   createCollection(
-    name: String!
-    items: [Item!]!
+    name: String,
+    items: [String!]!
   ): Collection!
   updateCollection(data: CollectionUpdateInput!, where: CollectionWhereUniqueInput!): Item
-  deleteCollectin(id: ID!): Collection!
+  deleteCollection(id: ID!): Collection!
   # User Mutations
   createUser(name: String!, email: String!, password: String!): User!
   signIn(email: String!, password: String!): User!
