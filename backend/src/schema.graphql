@@ -72,7 +72,7 @@ type Mutation {
     name: String,
     items: [String!]!
   ): Collection!
-  updateCollection(data: CollectionUpdateInput!, where: CollectionWhereUniqueInput!): Item
+  updateCollection(name: String, items: [String], where: CollectionWhereUniqueInput!): Collection
   deleteCollection(id: ID!): Collection!
   # User Mutations
   createUser(name: String!, email: String!, password: String!): User!

@@ -37,9 +37,6 @@ const Mutation = {
     });
   },
   async createCollection(_, {name, items}, ctx, info) {
-    //if (!ctx.request.userId) {
-    //  throw new Error("You must be logged in to create a collection") 
-    //}
     let itemsToConnect = []
     for(const itemID of items) {
       const item = await ctx.db.query.item({where: {id: itemID}})
@@ -47,10 +44,14 @@ const Mutation = {
 	itemsToConnect.push({id: itemID})
       }
     }
-//    items.forEach(async id => {
-//      const item = await ctx.db.query.item({where: {id}})
-//      itemsToConnect.push(item)
-//    })
+    // check for permission
+//    const hasPermission = ctx.request.user.permissions.some(permission =>
+//    const hasPermission = ctx.request.user.permissions.some(permission =>
+//      ["ADMIN"].includes(permission)
+//    );
+//    if (!hasPermission) {
+//      throw new Error("Insufficient permissions");
+//    }
     return ctx.db.mutation.createCollection(
     {
       data: {
@@ -63,9 +64,35 @@ const Mutation = {
     )
   },
   async deleteCollection(_, {id}, ctx, info) {
+    // check for permission
+    const hasPermission = ctx.request.user.permissions.some(permission =>
+      ["ADMIN"].includes(permission)
+    );
+    if (!hasPermission) {
+      throw new Error("Insufficient permissions");
+    }
     return ctx.db.mutation.deleteCollection({
       where: {
 	id
+      }
+    })
+  },
+  async updateCollection(_,{where, name, items}, ctx, info) {
+    // TODO: Check for permissions
+    let itemsToConnect = []
+    for(const itemID of items) {
+      const item = await ctx.db.query.item({where: {id: itemID}})
+      if (item) {
+	itemsToConnect.push({id: itemID})
+      }
+    }
+    return ctx.db.mutation.updateCollection({
+      where,
+      data: {
+	name,
+	items: {
+	  connect: itemsToConnect
+	}
       }
     })
   },
@@ -91,6 +118,7 @@ const Mutation = {
     });
   },
   async updateItem(parent, args, ctx, info) {
+    // TODO: check permissions
     const { where, data } = args;
     console.log(data);
     const item = await ctx.db.mutation.updateItem({
