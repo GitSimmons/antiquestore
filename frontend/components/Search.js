@@ -23,7 +23,7 @@ query SEARCH_ITEMS_QUERY($searchQuery: String) {
   }
 }
 `
-const SearchBar = ({ callbackFn }) => {
+const SearchBar = ({ callbackFn, clear}) => {
   const [isLoading, setLoading] = useState(false)
   const [results, setResults] = useState([])
   const [value, setValue] = useState('')
@@ -34,9 +34,8 @@ const SearchBar = ({ callbackFn }) => {
     setValue('')
   }
   const handleResultSelect = (e, { result }) => {
-    setValue(result.title)
+    clear ? resetSearch():  setValue(result.title) 
     callbackFn(result)
-    // Router.push(`/item?id=${result.id}`)
   }
 
   const handleSearchChange = debounce(async (e, client) => {
