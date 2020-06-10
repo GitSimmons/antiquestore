@@ -25,7 +25,7 @@ transform: ${(props) => {
   }
 };
 `
-const CardCarousel = ({ title, children, visibleItems = 4, padding }) => {
+const CardCarousel = ({ title, children, visibleItems, padding }) => {
   const [direction, setDirection] = useState('next')
   const [position, setPosition] = useState(children.length - 1 || 0)
   const [sliding, setSliding] = useState(false)

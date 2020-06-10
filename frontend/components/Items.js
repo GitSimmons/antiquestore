@@ -35,7 +35,7 @@ const Items = ({ page: pageProp }) => {
   });
   if (loading) {
     return (
-      <CardCarousel>
+      <CardCarousel padding="0px 8px 0px 8px">
         {[...Array(perPage)].map((e, index) => (
           <ItemCard key={index} />
         ))}
@@ -50,14 +50,16 @@ const Items = ({ page: pageProp }) => {
           <CardCarousel padding="0px 8px 0px 8px">
             {data.items.map(item => (
               <ItemCard
-                permissions={currentUser ? currentUser.permissions : ""}
+                permissions={currentUser && currentUser.permissions}
                 item={item}
                 key={item.id}
                 refetch={refetch}
               />
             ))}
           </CardCarousel>
-          <Pagination page={page} refetch={refetch} />
+	  {data.items.length > perPage &&
+	  <Pagination page={page} refetch={refetch} />
+	  }
         </div>
       )}
     </User>

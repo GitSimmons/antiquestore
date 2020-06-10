@@ -10,21 +10,19 @@ const StyledImage = styled(Image)`
   height: 200px !important;
   object-fit: cover;
 `;
-const ItemCard = ({ item, refetch, permissions }) => {
+const ItemCard = ({ item, refetch, permissions}) => {
   const routeToItemPage = id => {
     Router.push(`/item?id=${id}`);
   };
   if (!item) {
     return (
       <Card style={{ maxWidth: "90vw" }}>
-        <StyledImage src="/static/image.png" />
+        <StyledImage fluid src="/static/image.png" />
         <Card.Content>
           <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
         </Card.Content>
         <Card.Content extra>
           <Button circular icon="cart" floated="right" disabled />
-          <Button circular icon="trash" floated="right" disabled />
-          <Button circular icon="pencil" floated="right" disabled />
         </Card.Content>
       </Card>
     );
@@ -38,7 +36,7 @@ const ItemCard = ({ item, refetch, permissions }) => {
           onClick={e => routeToItemPage(item.id)}
         />
       ) : (
-        <StyledImage src="/static/image.png" />
+        <StyledImage fluid src="/static/image.png" />
       )}
       <Card.Content>
         <Card.Header onClick={e => routeToItemPage(item.id)}>
@@ -61,10 +59,10 @@ const ItemCard = ({ item, refetch, permissions }) => {
         <AddToCart id={item.id} item={item}>
           <Button circular icon="cart" floated="right" />
         </AddToCart>
-        {hasPermission(permissions, "ITEMDELETE") && (
+        {permissions && hasPermission(permissions, "ITEMDELETE") && (
           <DeleteItemButton item={item} refetch={refetch} />
         )}
-        {hasPermission(permissions, "ITEMUPDATE") && (
+        {permissions && hasPermission(permissions, "ITEMUPDATE") && (
           <UpdateItemButton item={item} />
         )}
       </Card.Content>
