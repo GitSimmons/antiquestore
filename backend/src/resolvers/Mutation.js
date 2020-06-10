@@ -45,13 +45,12 @@ const Mutation = {
       }
     }
     // check for permission
-//    const hasPermission = ctx.request.user.permissions.some(permission =>
-//    const hasPermission = ctx.request.user.permissions.some(permission =>
-//      ["ADMIN"].includes(permission)
-//    );
-//    if (!hasPermission) {
-//      throw new Error("Insufficient permissions");
-//    }
+    const hasPermission = ctx.request.user.permissions.some(permission =>
+      ["ADMIN"].includes(permission)
+    );
+    if (!hasPermission) {
+      throw new Error("Insufficient permissions");
+    }
     return ctx.db.mutation.createCollection(
     {
       data: {
@@ -78,7 +77,13 @@ const Mutation = {
     })
   },
   async updateCollection(_,{where, name, items}, ctx, info) {
-    // TODO: Check for permissions
+    // check for permission
+    const hasPermission = ctx.request.user.permissions.some(permission =>
+      ["ADMIN"].includes(permission)
+    );
+    if (!hasPermission) {
+      throw new Error("Insufficient permissions");
+    }
     let itemsToConnect = []
     for(const itemID of items) {
       const item = await ctx.db.query.item({where: {id: itemID}})
