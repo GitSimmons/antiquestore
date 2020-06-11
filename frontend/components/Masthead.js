@@ -18,10 +18,10 @@ const Masthead = () => {
     position: absolute;
     height: 650px;
     max-height: 100vh;
+    overflow: hidden;
     min-width: 80%;
-    background-color: ${mastheadObject.backgroundColor || "#bab9ff"};
+    background-color: ${mastheadObject.backgroundColor || `rgba(186,185,255, 0.12)`};
     transform: skewX(-25deg);
-    opacity: 0.25;
   `;
   const ImageContainer = styled.div`
     display: flex;
@@ -29,7 +29,8 @@ const Masthead = () => {
     align-items: center;
     height: 650px;
     max-height: 100vh;
-    width: 100vw;
+    overflow: hidden;
+    max-width: 1400px;
     background-image: url(${mastheadObject.src});
     background-attachment: fixed;
     background-position: top;
@@ -41,12 +42,14 @@ const Masthead = () => {
         <div>
           <Header
             as="h1"
-            style={{ maxWidth: "65%", fontSize: "6rem" }}
+            style={{ maxWidth: "33%", fontSize: "6rem" }}
             inverted
           >
             {mastheadObject.title}
-            <Header.Subheader>{mastheadObject.description}</Header.Subheader>
-            <Button color="blue">View Collection</Button>
+            <Header.Subheader>{mastheadObject.description}
+	    
+	      <Button color="blue" style={{marginTop: "1rem"}}>View Collection</Button>
+	    </Header.Subheader>
           </Header>
         </div>
       </ImageContainer>
