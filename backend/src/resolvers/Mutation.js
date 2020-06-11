@@ -36,13 +36,13 @@ const Mutation = {
       }
     });
   },
-  async createCollection(_, {name, items}, ctx, info) {
+  async createCollection(_, {items, ...args}, ctx, info) {
     let itemsToConnect = []
     for(const itemID of items) {
       const item = await ctx.db.query.item({where: {id: itemID}})
       if (item) {
 	itemsToConnect.push({id: itemID})
-      }
+      } 
     }
     // check for permission
     const hasPermission = ctx.request.user.permissions.some(permission =>
@@ -54,10 +54,10 @@ const Mutation = {
     return ctx.db.mutation.createCollection(
     {
       data: {
-	name,
 	items: {
 	  connect: itemsToConnect
-	}
+	},
+	...args
       }
     }
     )
