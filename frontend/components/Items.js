@@ -25,6 +25,15 @@ const ALL_ITEMS_QUERY = gql`
     }
   }
 `;
+const ALL_COLLECTIONS_QUERY = gql`
+query ALL_COLLECTIONS_QUERY {
+  collections {
+    id
+    name
+  }
+}
+
+`
 
 const Items = ({ page: pageProp }) => {
   const page = parseFloat(pageProp);
@@ -33,6 +42,7 @@ const Items = ({ page: pageProp }) => {
       skip: page * perPage - perPage
     }
   });
+  const collections = useQuery(ALL_COLLECTIONS_QUERY)
   if (loading) {
     return (
       <CardCarousel padding="0px 8px 0px 8px">
