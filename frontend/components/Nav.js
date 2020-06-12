@@ -22,7 +22,9 @@ const Nav = ({ children }) => {
   return (
       <Menu borderless fixed="top">
         <Menu.Item>
+	  <button aria-label="home" style={{border: "none", background: "none"}}>
           <Cat onClick={() => Router.push("/")} />
+	  </button>
         </Menu.Item>
         <Menu.Item>
 	  <Search callbackFn={handleSearch}/>
@@ -37,6 +39,7 @@ const Nav = ({ children }) => {
                     a="/sell"
                     icon="usd"
                     onClick={handleItemClick}
+		    aria-label="sell"
 		    / >
 		  }
                   <Mutation mutation={TOGGLE_CART_MUTATION}>
@@ -46,6 +49,7 @@ const Nav = ({ children }) => {
                         a="/Cart"
                         icon="cart"
                         onClick={toggleCartMutation}
+			aria-label="my cart"
                       ></Menu.Item>
                     )}
                   </Mutation>
@@ -54,6 +58,7 @@ const Nav = ({ children }) => {
                     a="/Account"
                     onClick={handleItemClick}
                     icon="user"
+		    aria-label="my account"
                   ></Menu.Item>
                   {!currentUser ? (
                     <Modal
