@@ -22,8 +22,8 @@ const Nav = ({ children }) => {
   return (
       <Menu borderless fixed="top">
         <Menu.Item>
-	  <button aria-label="home" style={{border: "none", background: "none"}}>
-          <Cat onClick={() => Router.push("/")} />
+	  <button onClick={() => Router.push("/")} aria-label="home" style={{border: "none", background: "none"}}>
+          <Cat/>
 	  </button>
         </Menu.Item>
         <Menu.Item>
