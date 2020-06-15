@@ -17,7 +17,7 @@ const ItemCard = ({ item, refetch, permissions}) => {
   if (!item) {
     return (
       <Card style={{ maxWidth: "90vw" }}>
-        <StyledImage fluid src="/static/image.png" />
+        <StyledImage fluid src="/image.png" />
         <Card.Content>
           <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
         </Card.Content>
@@ -36,7 +36,7 @@ const ItemCard = ({ item, refetch, permissions}) => {
           onClick={e => routeToItemPage(item.id)}
         />
       ) : (
-        <StyledImage fluid src="/static/image.png" />
+        <StyledImage fluid src="/image.png" />
       )}
       <Card.Content>
         <Card.Header onClick={e => routeToItemPage(item.id)}>
