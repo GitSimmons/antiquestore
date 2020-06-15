@@ -40,16 +40,25 @@ const Masthead = () => {
     background-color: ${mastheadObject.backgroundColor || `rgba(186,185,255, 0.12)`};
     transform: skewX(-25deg);
     content: '';
+    z-index: "0";
+    }
+    @media (max-width:900px) {
+    &::after {
+    position:absolute;
+    z-index: 1;
+    background-color: ${mastheadObject.mobileBackgroundColor || `rgba(036,035,105, 0.75)`};
+    left: -150%;
+    transform: skewX(-30deg);
+    width: 200%;
+    }
     }
   `;
 
   return (
       <ImageContainer>
-        <CarouselContrastTriangleThing />
-        <div>
           <Header
             as="h1"
-            style={{ maxWidth: "33%", fontSize: "6rem" }}
+	    style={{ maxWidth: "33%", fontSize: "6rem"  ,zIndex: 2}}
             inverted
           >
             {mastheadObject.title}
@@ -58,7 +67,6 @@ const Masthead = () => {
 	      <Button color="blue" style={{marginTop: "1rem"}}>View Collection</Button>
 	    </Header.Subheader>
           </Header>
-        </div>
       </ImageContainer>
   );
 };
