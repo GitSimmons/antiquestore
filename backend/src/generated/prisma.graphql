@@ -422,6 +422,7 @@ input CollectionWhereInput {
 
 input CollectionWhereUniqueInput {
   id: ID
+  name: String
 }
 
 scalar DateTime

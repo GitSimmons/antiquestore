@@ -71,5 +71,5 @@ type Order {
 type Collection {
   id: ID! @id
   items: [Item] @relation(references: [id])
-  name: String!
+  name: String! @unique
 }
