@@ -62,12 +62,8 @@ const CardCarousel = ({ title, children, visibleItems, padding }) => {
   try {
 
   if (window) {
-    width = window.innerWidth;
-    if (width <= 450) {
-      visibleItems = 2
-    } else if (width <=900) {
-      visibleItems = 3
-    }
+    window.innerWidth >= 1280 ? width = 1280 : width = window.innerWidth 
+    visibleItems = Math.floor(width/450) > 0 ? Math.floor(width/250) : 1
   }
   } catch (e) {
     
@@ -75,7 +71,7 @@ const CardCarousel = ({ title, children, visibleItems, padding }) => {
 
   const CarouselSlot = styled.div`
   display: flex;
-  min-width: calc(100%/${visibleItems});
+  width: calc(${Math.floor(100/visibleItems)}%);
   justify-content: center;
   padding: ${(props) => props.padding || '0px 0px 0px 0px'};
   order: ${(props) => props.order};
