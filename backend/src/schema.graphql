@@ -101,7 +101,10 @@ type Query {
     first: Int
     last: Int
   ): [Item]!
-  collections: [Collection]!
+  collections (where: CollectionWhereInput): [Collection]!
+  collection(
+    where: CollectionWhereUniqueInput!
+  ): Collection
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
   users: [User]!
