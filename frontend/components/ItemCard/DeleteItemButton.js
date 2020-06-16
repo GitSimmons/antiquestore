@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 
 const DELETE_ITEM_MUTATION = gql`

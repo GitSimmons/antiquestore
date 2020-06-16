@@ -1,5 +1,6 @@
 import NProgress from "nprogress";
 import Router from "next/router";
+import {useUser} from "./User";
 import Cart from "./Cart";
 import Nav from "./Nav";
 
@@ -15,11 +16,14 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const Header = () => (
-  <>
-    <Cart />
-    <Nav />
-  </>
-);
+const Header = () => {
+  const currentUser = useUser()
+      return (
+        <>
+	  {currentUser && <Cart />}
+          <Nav />
+        </>
+      );
+    }
 
 export default Header;

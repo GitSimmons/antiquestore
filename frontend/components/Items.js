@@ -2,10 +2,10 @@ import gql from "graphql-tag";
 import { Card } from "semantic-ui-react";
 import Pagination from "./Pagination";
 import { perPage } from "../lib/config";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import ItemCard from "./ItemCard/ItemCard";
 import { CardCarousel } from "./Carousel/CardCarousel";
-import User from "./User";
+import {useUser} from "./User";
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY(
@@ -25,24 +25,15 @@ const ALL_ITEMS_QUERY = gql`
     }
   }
 `;
-const ALL_COLLECTIONS_QUERY = gql`
-query ALL_COLLECTIONS_QUERY {
-  collections {
-    id
-    name
-  }
-}
-
-`
 
 const Items = ({ page: pageProp }) => {
+  const currentUser = useUser()
   const page = parseFloat(pageProp);
   const { data, error, loading, refetch } = useQuery(ALL_ITEMS_QUERY, {
     variables: {
       skip: page * perPage - perPage
     }
   });
-  const collections = useQuery(ALL_COLLECTIONS_QUERY)
   if (loading) {
     return (
       <CardCarousel padding="0px 8px 0px 8px">
@@ -54,8 +45,6 @@ const Items = ({ page: pageProp }) => {
   }
   if (error) return <div> Error... </div>;
   return (
-    <User>
-      {({ data: { currentUser } }) => (
         <div>
           <CardCarousel padding="0px 8px 0px 8px">
             {data.items.map(item => (
@@ -71,9 +60,7 @@ const Items = ({ page: pageProp }) => {
 	  <Pagination page={page} refetch={refetch} />
 	  }
         </div>
-      )}
-    </User>
-  );
+      )
 };
 
 export default Items;

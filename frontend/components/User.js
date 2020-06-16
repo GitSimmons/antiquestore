@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 
 const CURRENT_USER_QUERY = gql`
   query CURRENT_USER_QUERY {
@@ -22,13 +22,10 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
-const User = props => (
-  <Query {...props} query={CURRENT_USER_QUERY}>
-    {payload => {
-      return <>{props.children(payload)}</>;
-    }}
-  </Query>
-);
+const useUser = () => {
+const {data,loading, error}  = useQuery(CURRENT_USER_QUERY)
+  if (data) return data.currentUser
+}
 
-export default User;
-export { CURRENT_USER_QUERY };
+
+export { useUser, CURRENT_USER_QUERY };

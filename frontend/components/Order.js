@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { useQuery } from 'react-apollo-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import Head from 'next/head'
 import styled from 'styled-components'
 import { Breadcrumb, Grid, Header, Icon, Image, Segment, Table } from 'semantic-ui-react'
