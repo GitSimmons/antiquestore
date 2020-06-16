@@ -5,7 +5,7 @@ import Masthead from '../components/Masthead'
 export default props => (
   <>
     <Masthead />
-    <Header as='h2'>Explore our collection</Header>
+    <Header as='h2'>Explore our full collection</Header>
     <Items page={props.query.page || 1} />
   </>
 )
