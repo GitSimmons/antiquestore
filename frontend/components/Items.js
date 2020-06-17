@@ -5,7 +5,7 @@ import { perPage } from "../lib/config";
 import { useQuery } from "@apollo/react-hooks";
 import ItemCard from "./ItemCard/ItemCard";
 import { CardCarousel } from "./Carousel/CardCarousel";
-import {useUser} from "./User";
+import { useUser } from "./User";
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY(
@@ -27,12 +27,12 @@ const ALL_ITEMS_QUERY = gql`
 `;
 
 const Items = ({ page: pageProp }) => {
-  const currentUser = useUser()
+  const currentUser = useUser();
   const page = parseFloat(pageProp);
   const { data, error, loading, refetch } = useQuery(ALL_ITEMS_QUERY, {
     variables: {
-      skip: page * perPage - perPage
-    }
+      skip: page * perPage - perPage,
+    },
   });
   if (loading) {
     return (
@@ -45,22 +45,20 @@ const Items = ({ page: pageProp }) => {
   }
   if (error) return <div> Error... </div>;
   return (
-        <div>
-          <CardCarousel padding="0px 8px 0px 8px">
-            {data.items.map(item => (
-              <ItemCard
-                permissions={currentUser && currentUser.permissions}
-                item={item}
-                key={item.id}
-                refetch={refetch}
-              />
-            ))}
-          </CardCarousel>
-	  {data.items.length > perPage &&
-	  <Pagination page={page} refetch={refetch} />
-	  }
-        </div>
-      )
+    <div>
+      <CardCarousel padding="0px 8px 0px 8px">
+        {data.items.map((item) => (
+          <ItemCard
+            permissions={currentUser && currentUser.permissions}
+            item={item}
+            key={item.id}
+            refetch={refetch}
+          />
+        ))}
+      </CardCarousel>
+      <Pagination page={page} refetch={refetch} />
+    </div>
+  );
 };
 
 export default Items;
