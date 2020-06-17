@@ -8,13 +8,13 @@ const setCookie = (id, ctx) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET);
   ctx.response.cookie("token", token, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+    maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year cookie
   });
 };
 
 const getToken = ({ id, email }) => {
   const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
-    expiresIn: "1y"
+    expiresIn: "1y",
   });
   return token;
 };
@@ -30,41 +30,39 @@ const Mutation = {
         images: { set: images },
         createdBy: {
           connect: {
-            id: ctx.request.userId
-          }
-        }
-      }
+            id: ctx.request.userId,
+          },
+        },
+      },
     });
   },
-  async createCollection(_, {items, ...args}, ctx, info) {
-    let itemsToConnect = []
-    for(const itemID of items) {
-      const item = await ctx.db.query.item({where: {id: itemID}})
+  async createCollection(_, { items, ...args }, ctx, info) {
+    let itemsToConnect = [];
+    for (const itemID of items) {
+      const item = await ctx.db.query.item({ where: { id: itemID } });
       if (item) {
-	itemsToConnect.push({id: itemID})
-      } 
+        itemsToConnect.push({ id: itemID });
+      }
     }
     // check for permission
-    const hasPermission = ctx.request.user.permissions.some(permission =>
+    const hasPermission = ctx.request.user.permissions.some((permission) =>
       ["ADMIN"].includes(permission)
     );
     if (!hasPermission) {
       throw new Error("Insufficient permissions");
     }
-    return ctx.db.mutation.createCollection(
-    {
+    return ctx.db.mutation.createCollection({
       data: {
-	items: {
-	  connect: itemsToConnect
-	},
-	...args
-      }
-    }
-    )
+        items: {
+          connect: itemsToConnect,
+        },
+        ...args,
+      },
+    });
   },
-  async deleteCollection(_, {id}, ctx, info) {
+  async deleteCollection(_, { id }, ctx, info) {
     // check for permission
-    const hasPermission = ctx.request.user.permissions.some(permission =>
+    const hasPermission = ctx.request.user.permissions.some((permission) =>
       ["ADMIN"].includes(permission)
     );
     if (!hasPermission) {
@@ -72,34 +70,34 @@ const Mutation = {
     }
     return ctx.db.mutation.deleteCollection({
       where: {
-	id
-      }
-    })
+        id,
+      },
+    });
   },
-  async updateCollection(_,{where, name, items}, ctx, info) {
+  async updateCollection(_, { where, name, items }, ctx, info) {
     // check for permission
-    const hasPermission = ctx.request.user.permissions.some(permission =>
+    const hasPermission = ctx.request.user.permissions.some((permission) =>
       ["ADMIN"].includes(permission)
     );
     if (!hasPermission) {
       throw new Error("Insufficient permissions");
     }
-    let itemsToConnect = []
-    for(const itemID of items) {
-      const item = await ctx.db.query.item({where: {id: itemID}})
+    let itemsToConnect = [];
+    for (const itemID of items) {
+      const item = await ctx.db.query.item({ where: { id: itemID } });
       if (item) {
-	itemsToConnect.push({id: itemID})
+        itemsToConnect.push({ id: itemID });
       }
     }
     return ctx.db.mutation.updateCollection({
       where,
       data: {
-	name,
-	items: {
-	  connect: itemsToConnect
-	}
-      }
-    })
+        name,
+        items: {
+          connect: itemsToConnect,
+        },
+      },
+    });
   },
   async deleteItem(parent, { id }, ctx, info) {
     if (!ctx.request.userId) {
@@ -107,28 +105,27 @@ const Mutation = {
     }
     const item = await ctx.db.query.item(
       {
-        where: { id }
+        where: { id },
       },
       "{id, createdBy {id}}"
     );
     const ownsItem = item.createdBy.id === ctx.request.userId;
-    const hasPermission = ctx.request.user.permissions.some(permission =>
+    const hasPermission = ctx.request.user.permissions.some((permission) =>
       ["ADMIN", "ITEMDELETE"].includes(permission)
     );
     if (!ownsItem && !hasPermission) {
       throw new Error("Insufficient permissions");
     }
     return ctx.db.mutation.deleteItem({
-      where: { id }
+      where: { id },
     });
   },
   async updateItem(parent, args, ctx, info) {
     // TODO: check permissions
     const { where, data } = args;
-    console.log(data);
     const item = await ctx.db.mutation.updateItem({
       where,
-      data
+      data,
     });
     return item;
   },
@@ -140,7 +137,7 @@ const Mutation = {
     args.email = args.email.toLowerCase();
     const hash = await bcrypt.hash(args.password, saltRounds);
     const user = await ctx.db.mutation.createUser({
-      data: { ...args, password: hash, permissions: { set: ["USER"] } }
+      data: { ...args, password: hash, permissions: { set: ["USER"] } },
     });
     setCookie(user.id, ctx);
     return user;
@@ -150,7 +147,7 @@ const Mutation = {
       throw new Error(`Please enter a valid email and password.`);
     }
     const user = await ctx.db.query.user({
-      where: { email }
+      where: { email },
     });
     if (!user) {
       throw new Error(`No user found for email: ${email}.`);
@@ -168,7 +165,7 @@ const Mutation = {
   },
   async requestReset(parent, { email }, ctx, info) {
     const user = await ctx.db.query.user({
-      where: { email }
+      where: { email },
     });
     if (!user) {
       throw new Error(`No user found for email: ${email}`);
@@ -179,14 +176,14 @@ const Mutation = {
       where: { email },
       data: {
         resetToken,
-        resetTokenExpiry
-      }
+        resetTokenExpiry,
+      },
     });
 
     // TODO: Actually send an email request. Or y'know, fake it with mailtrap + nodemailer
 
     return {
-      message: `request password reset for ${email} confirmed, it will expire in 1 hour `
+      message: `request password reset for ${email} confirmed, it will expire in 1 hour `,
     };
   },
   async resetPassword(
@@ -197,8 +194,8 @@ const Mutation = {
   ) {
     const [user] = await ctx.db.query.users({
       where: {
-        AND: [{ resetToken }, { resetTokenExpiry_gte: Date.now() }]
-      }
+        AND: [{ resetToken }, { resetTokenExpiry_gte: Date.now() }],
+      },
     });
     if (!user) {
       throw new Error("Either your reset token is invalid, or it has expired");
@@ -213,8 +210,8 @@ const Mutation = {
       data: {
         password: hash,
         resetToken: null,
-        resetTokenExpiry: null
-      }
+        resetTokenExpiry: null,
+      },
     });
     setCookie(user.id, ctx);
     return updatedUser;
@@ -228,7 +225,7 @@ const Mutation = {
     return ctx.db.mutation.updateUser(
       {
         where: { id },
-        data: { permissions: { set: [...permissions] } }
+        data: { permissions: { set: [...permissions] } },
       },
       info
     );
@@ -240,8 +237,8 @@ const Mutation = {
     const [existingCartItem] = await ctx.db.query.cartItems({
       where: {
         user: { id: ctx.request.userId },
-        item: { id: args.id }
-      }
+        item: { id: args.id },
+      },
     });
     if (existingCartItem) {
       throw new Error(`This item is already in your cart`);
@@ -251,15 +248,15 @@ const Mutation = {
         data: {
           item: {
             connect: {
-              id: args.id
-            }
+              id: args.id,
+            },
           },
           user: {
             connect: {
-              id: ctx.request.userId
-            }
-          }
-        }
+              id: ctx.request.userId,
+            },
+          },
+        },
       },
       info
     );
@@ -272,8 +269,8 @@ const Mutation = {
       {
         where: {
           id: args.id,
-          user: { id: ctx.request.userId }
-        }
+          user: { id: ctx.request.userId },
+        },
       },
       `{id}`
     );
@@ -282,7 +279,7 @@ const Mutation = {
     }
     return ctx.db.mutation.deleteCartItem(
       {
-        where: { id: item.id }
+        where: { id: item.id },
       },
       info
     );
@@ -316,12 +313,12 @@ const Mutation = {
     const charge = await stripe.charges.create({
       amount: total,
       currency: "cad",
-      source: args.token
+      source: args.token,
     });
-    const orderItems = user.cart.map(cartItem => {
+    const orderItems = user.cart.map((cartItem) => {
       const orderItem = {
         user: { connect: { id: userId } },
-        ...cartItem.item
+        ...cartItem.item,
       };
       delete orderItem.id;
       return orderItem;
@@ -330,23 +327,23 @@ const Mutation = {
     const order = ctx.db.mutation.createOrder({
       data: {
         items: {
-          create: orderItems
+          create: orderItems,
         },
         user: {
           connect: {
-            id: ctx.request.userId
-          }
+            id: ctx.request.userId,
+          },
         },
         charge: charge.id,
-        total: charge.amount
-      }
+        total: charge.amount,
+      },
     });
-    const cartItemIds = user.cart.map(cartItem => cartItem.id);
+    const cartItemIds = user.cart.map((cartItem) => cartItem.id);
     await ctx.db.mutation.deleteManyCartItems({
-      where: { id_in: cartItemIds }
+      where: { id_in: cartItemIds },
     });
     return order;
-  }
+  },
 };
 
 module.exports = Mutation;
