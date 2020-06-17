@@ -5,7 +5,36 @@ const Query = {
   itemsConnection: forwardTo("db"),
   items: forwardTo("db"),
   collections: forwardTo("db"),
-  collection: forwardTo("db"),
+  // instead of forwarding the collection request, we
+  // instead query for items so that we get prisma's
+  // built in pagination
+  async collection(
+    parent,
+    {
+      where: { name },
+      first,
+      skip,
+      orderBy,
+    },
+    ctx,
+    info
+  ) {
+    const items = await ctx.db.query.items({
+      first,
+      skip,
+      orderBy,
+      where: {
+        collections_some: {
+          name,
+        },
+      },
+    });
+    return {
+      name: name,
+      items,
+    };
+  },
+  // collection: forwardTo("db"),
   // async items (parent, args, ctx, info) {
   //   const items = await ctx.db.query.items()
   //   return items

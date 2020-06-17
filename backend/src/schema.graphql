@@ -104,6 +104,9 @@ type Query {
   collections (where: CollectionWhereInput): [Collection]!
   collection(
     where: CollectionWhereUniqueInput!
+    first: Int
+    skip: Int
+    orderBy: ItemOrderByInput
   ): Collection
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
